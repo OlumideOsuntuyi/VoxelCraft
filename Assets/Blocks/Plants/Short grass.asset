@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3202302a0f90cf840a72ba3e0c0ad2e5, type: 3}
+  m_Name: Short grass
+  m_EditorClassIdentifier: 
+  blockName: 
+  id: 48
+  icon: {fileID: 21300000, guid: 559d2e2c4a84bdd428cc4a1d05dbfd76, type: 3}
+  meshData: {fileID: 11400000, guid: 82b4308c5d6b31e4c931f6209ab5e468, type: 2}
+  transparency: 0
+  emission: 0
+  walkMultiplier: 1
+  renderNeighbourFaces: 1
+  isSolid: 0
+  isWater: 0
+  isPlant: 0
+  isActiveBlock: 0
+  canRotate: 0
+  canSpread: 0
+  canPower: 0
+  isPowered: 0
+  canBreak: 0
+  isGravity: 0
+  faceTextures: []
+  walkAudio: {fileID: 0}
