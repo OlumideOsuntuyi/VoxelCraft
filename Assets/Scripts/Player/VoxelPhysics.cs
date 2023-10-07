@@ -27,7 +27,7 @@ public class VoxelPhysics : MonoBehaviour
     public bool sleep;
     public Vector3Int size;
 
-    float xIncrease = 0;
+    internal float xIncrease = 0;
 
     public BlockState feetBlock, legBlock, headBlock;
     public EntityState entityState;
@@ -55,6 +55,34 @@ public class VoxelPhysics : MonoBehaviour
             else
                 orientation = 4;
 
+            if (!sleep && !Gameplay.instance.isPlayerPaused)
+            {
+                feetBlock = WorldData.Block(new BlockPosition(Vector3Int.FloorToInt(transform.position) + Vector3Int.down));
+                legBlock = WorldData.Block(new BlockPosition(Vector3Int.FloorToInt(transform.position)));
+                headBlock = WorldData.Block(new BlockPosition(Vector3Int.FloorToInt(transform.position) + (Vector3Int.up * size.y)));
+                CalculateVelocity();
+                CheckFall();
+                CheckWalk();
+                if (jumpRequest)
+                    Jump();
+
+                bool isWalking = vertical != 0 || horizontal != 0;
+                transform.Rotate(Vector3.up * mouseHorizontal);
+                //head.Rotate(Vector3.right * -mouseVertical);
+                xIncrease = Mathf.Clamp(xIncrease + mouseVertical, -86, 86);
+                head.transform.localEulerAngles = Vector3.left * xIncrease;
+                if (isWalking)
+                {
+                }
+                transform.Translate(velocity, Space.World);
+                var newPos = new Vector3()
+                {
+                    x = transform.position.x,
+                    y = Mathf.Clamp(transform.position.y, -40, 1000),
+                    z = transform.position.z
+                };
+                transform.position = newPos;
+            }
         }
     }
 
@@ -66,51 +94,19 @@ public class VoxelPhysics : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-    {
-        if (!sleep && !Gameplay.instance.isPlayerPaused)
-        {
-            feetBlock = WorldData.Block(new BlockPosition(Vector3Int.FloorToInt(transform.position) + Vector3Int.down));
-            legBlock = WorldData.Block(new BlockPosition(Vector3Int.FloorToInt(transform.position)));
-            headBlock = WorldData.Block(new BlockPosition(Vector3Int.FloorToInt(transform.position) + (Vector3Int.up * size.y)));
-            CalculateVelocity();
-            CheckFall();
-            CheckWalk();
-            if (jumpRequest)
-                Jump();
-
-            bool isWalking = vertical != 0 || horizontal != 0;
-            transform.Rotate(Vector3.up * mouseHorizontal);
-            //head.Rotate(Vector3.right * -mouseVertical);
-            xIncrease = Mathf.Clamp(xIncrease + mouseVertical, -86, 86);
-            head.transform.localEulerAngles = Vector3.left * xIncrease;
-            if (isWalking)
-            {
-            }
-            transform.Translate(velocity, Space.World);
-            var newPos = new Vector3()
-            {
-                x = transform.position.x,
-                y = Mathf.Clamp(transform.position.y, -40, 1000),
-                z = transform.position.z
-            };
-            transform.position = newPos;
-        }
-    }
-
     private void CalculateVelocity()
     {
         // Affect vertical momentum with gravity.
         if (verticalMomentum > gravity)
-            verticalMomentum += Time.fixedDeltaTime * gravity * legBlock.block.gravityMultiplier;
+            verticalMomentum += Time.deltaTime * gravity * legBlock.block.gravityMultiplier;
 
         // if we're sprinting, use the sprint multiplier.
         float speed = (isSprinting ? sprintSpeed : walkSpeed) * feetBlock.block.walkMultiplier * legBlock.block.walkObstructionMultiplier;
         Vector3 direction = ((transform.forward * vertical) + (transform.right * horizontal * .65f));
-        velocity = direction * Time.fixedDeltaTime * speed;
+        velocity = direction * Time.deltaTime * speed;
 
         // Apply vertical momentum (falling/jumping).
-        velocity += Vector3.up * verticalMomentum * Time.fixedDeltaTime;
+        velocity += Vector3.up * verticalMomentum * Time.deltaTime;
 
         if ((velocity.z > 0 && front) || (velocity.z < 0 && back))
             velocity.z = 0;

@@ -160,114 +160,27 @@ public class BlockPosition
     {
         get
         {
-            if(space == Space.world)
-            {
-                return position - WorldFunctions.ChunkToWorldPosition(WorldFunctions.WorldPositionToChunkPosition(position));
-            }
-            else
-            {
-                return position;
-            }
+            return WorldFunctions.WorldToLocalPosition(position);
         }
     }
     public Vector3Int worldPosition
     {
         get
         {
-            if (space == Space.world)
-            {
-                return position;
-            }
-            else
-            {
-                return WorldFunctions.ChunkToWorldPosition(chunkPosition) + position;
-            }
+            return position;
         }
     }
-    public Space space = Space.world;
 
     public BlockPosition()
     {
         position = new();
-        space = Space.world;
     }
     public BlockPosition(Vector3 position)
     {
         this.position = Vector3Int.FloorToInt(position);
-        space = Space.world;
     }
     public BlockPosition(Vector3 position, ChunkPosition chunk)
     {
         this.position = Vector3Int.FloorToInt(position) + WorldFunctions.ChunkToWorldPosition(chunk);
-        space = Space.world;
     }
-    public bool Equals(BlockPosition other)
-    {
-        if (other == null)
-            return false;
-        else if (other.x == x && other.y == y && other.z == z && other.space == space)
-            return true;
-        else
-            return false;
-    }
-    public static BlockPosition operator +(BlockPosition a, BlockPosition b)
-    {
-        if (a.space == Space.world && b.space == Space.local)
-        {
-            b = new BlockPosition(b.worldPosition, b.chunkPosition);
-        }
-        else if (a.space == Space.local && b.space == Space.world)
-        {
-            a = new BlockPosition(a.worldPosition, a.chunkPosition);
-        }
-
-        if (a.space != b.space)
-        {
-            throw new ArgumentException("Cannot add BlockPositions in different spaces.");
-        }
-
-        return new BlockPosition
-        {
-            x = a.x + b.x,
-            y = a.y + b.y,
-            z = a.z + b.z,
-            space = a.space
-        };
-    }
-
-    public static BlockPosition operator -(BlockPosition a, BlockPosition b)
-    {
-        if (a.space == Space.world && b.space == Space.local)
-        {
-            b = new BlockPosition(b.worldPosition, b.chunkPosition);
-        }
-        else if (a.space == Space.local && b.space == Space.world)
-        {
-            a = new BlockPosition(a.worldPosition, a.chunkPosition);
-        }
-
-        if (a.space != b.space)
-        {
-            throw new ArgumentException("Cannot subtract BlockPositions in different spaces.");
-        }
-
-        return new BlockPosition
-        {
-            x = a.x - b.x,
-            y = a.y - b.y,
-            z = a.z - b.z,
-            space = a.space
-        };
-    }
-    public static Vector3Int operator +(BlockPosition a, Vector3Int b)
-    {
-        return new Vector3Int(a.x + b.x, a.y + b.y, a.z + b.z);
-    }
-
-    public static Vector3Int operator -(BlockPosition a, Vector3Int b)
-    {
-        return new Vector3Int(a.x - b.x, a.y - b.y, a.z - b.z);
-    }
-
-    public enum Space { world, local};
 }

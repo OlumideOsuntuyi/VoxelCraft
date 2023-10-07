@@ -1,6 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
+using System.IO;
 
 using UnityEngine;
 
@@ -63,11 +62,17 @@ public class Chunk
             subChunks[layer][x, y - (layer * 16), z] = value;
         }
     }
+    internal string SavePath => Path.Combine(World.world.worldChunksFolder, $"r.{position.position}.VCR");
     public Chunk(ChunkPosition position)
     {
         this.position = position;
         position.BiomeIndex = WorldGeneration.instance.GetBiome(position);
         chunkObject = null;
+        subChunks = new();
+        for (byte i = 0; i < 16; i++)
+        {
+            subChunks.Add(new SubChunk(i, position));
+        }
     }
     public void Init()
     {
@@ -77,11 +82,16 @@ public class Chunk
             chunkObject.transform.parent = WorldData.instance.transform;
             chunkObject.transform.localPosition = WorldFunctions.ChunkToWorldPosition(position);
             statechange = true;
-            for (int i = 0; i < Settings.instance.chunkSize.y / 16; i++)
+            /*
+            var data = FileHandler.LoadObject<ChunkData>(SavePath);
+            if(data.subchunks.Length != subChunks.Count)
             {
-                SubChunk sc = new(i, position);
-                sc.Init();
-                subChunks.Add(sc);
+                subChunks = data.subchunks.ToList();
+            }
+            */
+            foreach(var sc in subChunks)
+            {
+                sc.Init(position);
             }
             chunkComponent = chunkObject.AddComponent<ChunkComponent>();
             chunkComponent.Set(position.position);
@@ -106,12 +116,14 @@ public class Chunk
         if (_isActive && chunkObject)
         {
             _isActive = false;
+            FileHandler.SaveObject(new ChunkData(subChunks, position), SavePath);
             ClearMeshData();
             for (int i = 0; i < subChunks.Count; i++)
             {
                 subChunks[i].Unload();
             }
             chunkObject.SetActive(false);
+            chunkComponent.DestoySelf();
         }
     }
     public void EditVoxel(BlockPosition position, int id, int orientation = 1)
@@ -266,5 +278,28 @@ public class Chunk
         var twoPos = two.position;
         WorldData.SetBlock(two, onePos);
         WorldData.SetBlock(one, twoPos);
+    }
+    [System.Serializable]
+    public class ChunkData
+    {
+        public SubChunk[] subchunks = new SubChunk[16];
+        public ChunkPosition position = new();
+        public ChunkData()
+        {
+            subchunks = new SubChunk[16];
+            for (byte i = 0; i < subchunks.Length; i++)
+            {
+                subchunks[i] = new SubChunk(i, position);
+            }
+        }
+        public ChunkData(List<SubChunk> subchunks, ChunkPosition position)
+        {
+            if (subchunks.Count > 16)
+            {
+                subchunks.RemoveRange(16, subchunks.Count - 16);
+            }
+            this.subchunks = subchunks.ToArray();
+            this.position = position;
+        }
     }
 }

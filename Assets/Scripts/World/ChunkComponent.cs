@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(5)]
@@ -52,5 +50,13 @@ public class ChunkComponent : MonoBehaviour
         this.coord = coord;
         created = true;
         drawMesh = false;
+    }
+    internal void DestoySelf()
+    {
+        if (World.world.chunks.ContainsKey(coord))
+        {
+            World.world.chunks.Remove(coord);
+        }
+        Destroy(gameObject);
     }
 }

@@ -122,16 +122,25 @@ public class WorldGeneration : MonoBehaviour
                 }
             }
         }
-        else
+        //under water surface blocks
+        if (y == baseLandHeight && y < biome.waterHeight)
         {
-            if(y <= biome.waterHeight)
+            id = biome.GetBlock(x, y, z, biome.sediments);
+        }
+        if (y > baseLandHeight)
+        {
+            if (y <= biome.waterHeight)
             {
+                if(y == biome.waterHeight)
+                {
+                    //spawn fish
+                }
                 id = 6;
             }
         }
         if(id == biome.terrainBlock)
         {
-            //GetPlants(x, y, z, id, biome, new(chunkPos), continent, erosion, pv);
+            GetPlants(x, y, z, id, biome, new(chunkPos), continent, erosion, pv);
         }
         return id;
     }
@@ -145,11 +154,11 @@ public class WorldGeneration : MonoBehaviour
             //Tree pass
             if (biome.treeScale > 0 && !success)
             {
-                var scPL = scP * biome.treeLumpScale * 16f;
+                var scPL = scP * biome.treeLumpScale;
                 if (Mathf.Abs(pv - er) <= biome.treeLumpThreshold)
                 {
-                    var scPT = scP * biome.treeScale * 16f;
-                    if (noise.GetSimplex(scPT.x, scPT.z) > biome.treeThreshold)
+                    var scPT = scP * biome.treeScale;
+                    if (Mathf.Abs(noise.GetSimplex(scPT.x, scPT.z)) > biome.treeThreshold)
                     {
                         var treeQueue = Structures.MakeTree(pos.worldPosition, biome);
                         success = true;

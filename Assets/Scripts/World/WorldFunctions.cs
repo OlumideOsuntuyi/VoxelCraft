@@ -26,6 +26,24 @@ public static class WorldFunctions
         var p = new BlockPosition(position);
         return p;
     }
+    public static Vector3Int WorldToLocalPosition(Vector3 position)
+    {
+        Vector3Int pos = new Vector3Int
+        {
+            x = Mathf.Abs((int)position.x % 16),
+            y = (int)position.y,
+            z = Mathf.Abs((int)position.z % 16)
+        };
+        if(position.x < 0)
+        {
+            pos.x = 15 - pos.x;
+        }
+        if(position.z < 0)
+        {
+            pos.z = 15 - pos.z;
+        }
+        return pos;
+    }
 }
 public class IntConverter
 {

@@ -31,11 +31,17 @@ MonoBehaviour:
   caveBlocks: []
   terrainScale: 0
   caveScale: 0
-  treeScale: 0
-  treeLumpScale: 0
+  treeScale: 1
+  treeLumpScale: 1
   treeThreshold: 0
-  treeLumpThreshold: 0
-  trees: []
+  treeLumpThreshold: 1
+  trees:
+  - leaves:
+    - name: 
+      layer:
+      - {x: 0, y: 1, z: 0}
+    minLog: 5
+    maxLog: 7
   plantsScale: 0
   plantsGroupOffset: 0
   plantsGroupThreshold: 0
@@ -43,10 +49,10 @@ MonoBehaviour:
   plant: []
   elevation: 0
   caveSize: 0
-  waterHeight: 62
+  waterHeight: 64
   terrainBlock: 4
-  treeLog: 0
-  treeLeaves: 0
+  treeLog: 19
+  treeLeaves: 21
   grassColor: {r: 0.8784314, g: 0.87058824, b: 0.7176471, a: 1}
   waterColor: {r: 0.57079923, g: 0.8476332, b: 0.9528302, a: 1}
   biomeTint: {r: 0.8784314, g: 0.87236935, b: 0.7176471, a: 1}

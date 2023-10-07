@@ -13,24 +13,45 @@ MonoBehaviour:
   m_Name: oak log
   m_EditorClassIdentifier: 
   blockName: 
-  id: 0
+  id: 19
   icon: {fileID: 21300000, guid: 1ede780af8432154d95cbd6d2263675b, type: 3}
   meshData: {fileID: 11400000, guid: a529bc624fb90ad4b816b284c835494a, type: 2}
   transparency: 0
   emission: 0
   stackMax: 64
-  walkMultiplier: 0
+  walkMultiplier: 1
+  walkObstructionMultiplier: 1
+  gravityMultiplier: 1
   occlusionStrength: 1
+  fallDamageNegation: 0
   renderNeighbourFaces: 0
-  isSolid: 0
+  isSolid: 1
   isWater: 0
   isPlant: 0
   isActiveBlock: 0
-  canRotate: 0
+  canRotate: 1
   canSpread: 0
   canPower: 0
   isPowered: 0
   canBreak: 0
   isGravity: 0
-  faceTextures: []
+  faceTextures:
+  - texture: {fileID: 21300000, guid: 0a6f492f337c8934dbf84accef1b61e1, type: 3}
+    uv: {x: 25, y: 0}
+    tintType: 0
+  - texture: {fileID: 21300000, guid: 0a6f492f337c8934dbf84accef1b61e1, type: 3}
+    uv: {x: 25, y: 0}
+    tintType: 0
+  - texture: {fileID: 21300000, guid: fc65fe688eeca25498ba3b73b3ef0861, type: 3}
+    uv: {x: 26, y: 0}
+    tintType: 0
+  - texture: {fileID: 21300000, guid: fc65fe688eeca25498ba3b73b3ef0861, type: 3}
+    uv: {x: 26, y: 0}
+    tintType: 0
+  - texture: {fileID: 21300000, guid: 0a6f492f337c8934dbf84accef1b61e1, type: 3}
+    uv: {x: 25, y: 0}
+    tintType: 0
+  - texture: {fileID: 21300000, guid: 0a6f492f337c8934dbf84accef1b61e1, type: 3}
+    uv: {x: 25, y: 0}
+    tintType: 0
   walkAudio: {fileID: 0}

@@ -20,7 +20,10 @@ MonoBehaviour:
   emission: 0
   stackMax: 16
   walkMultiplier: 1
+  walkObstructionMultiplier: 1
+  gravityMultiplier: 1
   occlusionStrength: 1
+  fallDamageNegation: 0
   renderNeighbourFaces: 0
   isSolid: 1
   isWater: 0

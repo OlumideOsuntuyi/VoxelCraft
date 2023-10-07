@@ -13,16 +13,19 @@ MonoBehaviour:
   m_Name: oak leaves
   m_EditorClassIdentifier: 
   blockName: 
-  id: 0
+  id: 21
   icon: {fileID: 21300000, guid: 1410ce5151aa8fc45906eb5dec0034d4, type: 3}
   meshData: {fileID: 11400000, guid: a529bc624fb90ad4b816b284c835494a, type: 2}
-  transparency: 0
+  transparency: 0.8
   emission: 0
   stackMax: 64
-  walkMultiplier: 0
+  walkMultiplier: 1
+  walkObstructionMultiplier: 1
+  gravityMultiplier: 1
   occlusionStrength: 1
+  fallDamageNegation: 0
   renderNeighbourFaces: 0
-  isSolid: 0
+  isSolid: 1
   isWater: 0
   isPlant: 0
   isActiveBlock: 0
@@ -32,5 +35,23 @@ MonoBehaviour:
   isPowered: 0
   canBreak: 0
   isGravity: 0
-  faceTextures: []
+  faceTextures:
+  - texture: {fileID: 21300000, guid: d88a9072e928abe41bfae3c26daad89b, type: 3}
+    uv: {x: 28, y: 0}
+    tintType: 2
+  - texture: {fileID: 21300000, guid: d88a9072e928abe41bfae3c26daad89b, type: 3}
+    uv: {x: 28, y: 0}
+    tintType: 2
+  - texture: {fileID: 21300000, guid: d88a9072e928abe41bfae3c26daad89b, type: 3}
+    uv: {x: 28, y: 0}
+    tintType: 2
+  - texture: {fileID: 21300000, guid: d88a9072e928abe41bfae3c26daad89b, type: 3}
+    uv: {x: 28, y: 0}
+    tintType: 2
+  - texture: {fileID: 21300000, guid: d88a9072e928abe41bfae3c26daad89b, type: 3}
+    uv: {x: 28, y: 0}
+    tintType: 2
+  - texture: {fileID: 21300000, guid: d88a9072e928abe41bfae3c26daad89b, type: 3}
+    uv: {x: 28, y: 0}
+    tintType: 2
   walkAudio: {fileID: 0}

@@ -5,13 +5,14 @@ using UnityEngine;
 public class Gameplay : Singleton<Gameplay>
 {
     public static Gameplay instance;
+    [SerializeField] private Player player;
     [SerializeField] private Camera mainCam;
     [SerializeField] private Material skyboxMaterial;
     [SerializeField] bool _isPlaying;
     [SerializeField] bool _isPaused;
     [SerializeField] bool _isInventoryOpen;
 
-    public bool isPlayerPaused => _isPaused || !_isPlaying;
+    public bool isPlayerPaused => _isPaused || !_isPlaying || isInventoryOpen;
     public bool isPlaying => _isPlaying;
     public bool isInventoryOpen => _isPlaying && _isInventoryOpen;
     private void Awake()
@@ -26,6 +27,7 @@ public class Gameplay : Singleton<Gameplay>
         _isInventoryOpen = false;
         _isPaused = false;
         ChunkLoadingManager.instance.StartPlaying();
+        player.StartGame();
         RenderSettings.skybox = null;
         mainCam.clearFlags = CameraClearFlags.SolidColor;
     }
@@ -34,6 +36,7 @@ public class Gameplay : Singleton<Gameplay>
         _isPlaying = false;
         _isPaused = false;
         _isInventoryOpen = false;
+        player.EndGame();
         ChunkLoadingManager.instance.EndGame();
         RenderSettings.skybox = skyboxMaterial;
         mainCam.clearFlags = CameraClearFlags.Skybox;

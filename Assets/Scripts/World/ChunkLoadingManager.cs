@@ -42,7 +42,7 @@ public class ChunkLoadingManager : MonoBehaviour
     {
         runChunkUpdates = true;
         debugInfo = new();
-        World.world = new World();
+        World.world = new World("Test World");
         WorldGeneration.instance.StartGame();
         StartChunkUpdates();
     }
@@ -65,6 +65,7 @@ public class ChunkLoadingManager : MonoBehaviour
         activeChunkPass.Clear();
         activeChunks.Clear();
         chunksToInitialize.Clear();
+        World.world.Unload();
         World.world = null;
         WorldData.instance.EndGame();
     }
@@ -204,6 +205,7 @@ public class ChunkLoadingManager : MonoBehaviour
         while (RunChunkUpdates)
         {
             //send this to its separate sequence later on
+            debugInfo.chunkModCount = chunkModifications.Count;
             lock (chunkModifications)
             {
                 while (chunkModifications.Count > 0)
@@ -219,6 +221,8 @@ public class ChunkLoadingManager : MonoBehaviour
                         if (World.world.chunks.ContainsKey(cPos))
                         {
                             World.world.chunks[cPos].statechange = true;
+                            World.world.chunks[cPos].chunkComponent.layerToDraw = -1;
+                            World.world.chunks[cPos].chunkComponent.drawMesh = true;
                         }
                     }
                 }
@@ -232,7 +236,6 @@ public class ChunkLoadingManager : MonoBehaviour
                 foreach (var chunk in activeChunkPass)
                 {
                     World.world.chunks[chunk.position].Update();
-                    Debug.Log($"updating chunk {chunk.position}");
                 }
                 prevTime = 1000 * (gameTime - prevTime);
                 debugInfo.prevChunkUpdateTime = prevTime;
@@ -280,6 +283,7 @@ public class ChunkLoadingManager : MonoBehaviour
                         }
                         World.world.chunks[pos.position].Load();
                     }
+                    yield return null;
                 }
                 lock (activeChunkPass)
                 {
@@ -301,6 +305,7 @@ public class ChunkLoadingManager : MonoBehaviour
         public int chunksUpdatePass;
         public int renderDistance;
         public int chunkCount;
+        public int chunkModCount;
         public float prevChunkUpdateTime;
 
         public float prevLightCalculationTime, prevLightVolume;

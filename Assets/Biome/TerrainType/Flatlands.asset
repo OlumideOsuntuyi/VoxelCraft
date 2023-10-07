@@ -12,55 +12,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c50bbecb069dd54468bc029a71340839, type: 3}
   m_Name: Flatlands
   m_EditorClassIdentifier: 
-  continentScale: 0.2
-  continentOctaves: 1
+  continentScale: 1
+  continentOctaves: 2
   continentAmplitude: 1
   continentPoints:
   - value: 60
     time: -1
   - value: 62
     time: -0.5
-  - value: 64
+  - value: 66
     time: 0.7
-  - value: 64
+  - value: 66
     time: 0.8
-  - value: 62
+  - value: 64
     time: 1
-  erosionScale: 0.4
-  erosionOctaves: 2
+  erosionScale: 1
+  erosionOctaves: 4
   erosionAmplitude: 0.5
   erosionPoints:
-  - value: 0
+  - value: 10
     time: -0.5
-  - value: 0
+  - value: 7
     time: -0.25
-  - value: 3
-    time: 0.2
   - value: 5
+    time: 0.2
+  - value: 0
     time: 0
-  - value: 8
+  - value: 5
     time: 0.2
   - value: 7
     time: 0.3
   - value: 10
     time: 0.5
-  pvScale: 0.4
-  pvOctaves: 4
+  pvScale: 1
+  pvOctaves: 2
   pvAmplitude: 1
   pvPoints:
   - value: 0
     time: -1
-  - value: 3
+  - value: 0
     time: -0.5
-  - value: 6
+  - value: 5
     time: -0.25
-  - value: 8
+  - value: 5
     time: 0
   - value: 10
     time: 0.25
-  - value: 13
+  - value: 20
     time: 0.5
-  - value: 15
+  - value: 35
     time: 1
   caveHeight: 52
   minCaveThreshold: 0

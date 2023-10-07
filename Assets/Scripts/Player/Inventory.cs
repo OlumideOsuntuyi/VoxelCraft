@@ -30,6 +30,18 @@ public class Inventory : MonoBehaviour
             });
         }
     }
+    public void StartGame(List<Slot> slots, int current)
+    {
+        _currentSlot = current;
+        if(slots.Count == this.slots.Count)
+        {
+            this.slots = slots;
+        }
+    }
+    public List<Slot> EndGame()
+    {
+        return slots;
+    }
     private void Update()
     {
         currentSlotStatus.transform.position = currentSlot.iconTransform.position;
@@ -119,7 +131,7 @@ public class Inventory : MonoBehaviour
     }
 
     [System.Serializable]
-    private class Slot
+    public class Slot
     {
         public int id = 0;
         public int amount = 0;

@@ -18,7 +18,12 @@ MonoBehaviour:
   meshData: {fileID: 11400000, guid: 82b4308c5d6b31e4c931f6209ab5e468, type: 2}
   transparency: 0
   emission: 0
+  stackMax: 64
   walkMultiplier: 1
+  walkObstructionMultiplier: 1
+  gravityMultiplier: 1
+  occlusionStrength: 0
+  fallDamageNegation: 0
   renderNeighbourFaces: 1
   isSolid: 0
   isWater: 0

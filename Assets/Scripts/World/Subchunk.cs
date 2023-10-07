@@ -3,30 +3,31 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+[System.Serializable]
 public class SubChunk
 {
-    public int layer;
-    public ChunkPosition position;
+    public byte layer;
+    [System.NonSerialized] public ChunkPosition position;
     public Chunk chunk => World.world.chunks[position.position];
-    public GameObject subChunkObject;
-    public MeshFilter meshFilter;
-    public MeshRenderer meshRenderer;
+    [System.NonSerialized] public GameObject subChunkObject;
+    [System.NonSerialized] public MeshFilter meshFilter;
+    [System.NonSerialized] public MeshRenderer meshRenderer;
 
-    public bool layerStateChange;
-    public bool _isEditable;
+    [System.NonSerialized] public bool layerStateChange;
+    [System.NonSerialized] public bool _isEditable;
     public bool isCreated => subChunkObject != null && meshFilter != null && meshRenderer != null;
 
-    int vertexIndex = 0;
-    List<Vector3> vertices = new List<Vector3>();
-    List<int> triangles = new List<int>();
-    List<int> transparentTriangles = new List<int>();
-    List<int> waterTriangles = new List<int>();
-    List<Vector2> uvs = new List<Vector2>();
-    List<Vector2> uv2 = new List<Vector2>();
-    List<Color> colors = new List<Color>();
-    List<Vector3> normals = new List<Vector3>();
+    [System.NonSerialized] int vertexIndex = 0;
+    [System.NonSerialized] List<Vector3> vertices = new List<Vector3>();
+    [System.NonSerialized] List<int> triangles = new List<int>();
+    [System.NonSerialized] List<int> transparentTriangles = new List<int>();
+    [System.NonSerialized] List<int> waterTriangles = new List<int>();
+    [System.NonSerialized] List<Vector2> uvs = new List<Vector2>();
+    [System.NonSerialized] List<Vector2> uv2 = new List<Vector2>();
+    [System.NonSerialized] List<Color> colors = new List<Color>();
+    [System.NonSerialized] List<Vector3> normals = new List<Vector3>();
 
-    BlockState[,,] blocks = new BlockState[16, 16, 16];
+    public BlockState[,,] blocks = new BlockState[16, 16, 16];
     internal BlockState this[int x, int y, int z]
     {
         get
@@ -35,27 +36,24 @@ public class SubChunk
         }
         set
         {
-            if (x == 0 && !value.generated)
-            {
-                Debug.Log($"missing subchunk x 0 at {new Vector3(x, y, z)}");
-            }
-            else if (x == 15 && !value.generated)
-            {
-                Debug.Log($"missing subchunk x 15 at {new Vector3(x, y, z)}");
-            }
             lock (blocks)
             {
                 blocks[x, y, z] = value;
             }
         }
     }
-    public SubChunk(int layer, ChunkPosition position)
+    public SubChunk()
+    {
+
+    }
+    public SubChunk(byte layer, ChunkPosition position)
     {
         this.layer = layer;
         this.position = position;
     }
-    public void Init()
+    public void Init(ChunkPosition position)
     {
+        this.position = position;
         if (!subChunkObject)
         {
             subChunkObject = new GameObject($"layer {layer}");
@@ -64,7 +62,6 @@ public class SubChunk
             meshFilter = subChunkObject.AddComponent<MeshFilter>();
             meshRenderer = subChunkObject.AddComponent<MeshRenderer>();
             meshRenderer.materials = WorldGeneration.instance.materials;
-            blocks = new BlockState[16, 16, 16];
         }
         layerStateChange = true;
     }
@@ -90,7 +87,7 @@ public class SubChunk
         uv2.Clear();
         colors.Clear();
     }
-    internal bool meshDrawn;
+    [System.NonSerialized] internal bool meshDrawn;
     internal void GenerateMeshData()
     {
         if(!_isEditable && !meshDrawn)

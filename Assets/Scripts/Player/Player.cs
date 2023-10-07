@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.IO;
+
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -22,6 +25,9 @@ public class Player : MonoBehaviour
     public AudioSource walkAudio;
 
     public BlockState lastLookAt;
+    public PlayerWorldData worldData = null;
+    public PlayerAccountInfo accountInfo = new();
+    public string playerWorldData => Path.Combine(World.world.worldFolder, Path.Combine("players", $"{accountInfo.name}"));
     private void Awake()
     {
         instance = this;
@@ -33,6 +39,20 @@ public class Player : MonoBehaviour
         physics.feetBlock = WorldData.Block(new BlockPosition(new()));
         physics.headBlock = WorldData.Block(new BlockPosition(new()));
     }
+    public void StartGame()
+    {
+        worldData = FileHandler.LoadObject<PlayerWorldData>(playerWorldData);
+        inventory.StartGame(worldData.slots, worldData._currentSlot);
+        transform.position = new Vector3(worldData.lastPosition.p_x, worldData.lastPosition.p_y, worldData.lastPosition.p_z);
+        transform.eulerAngles += Vector3.up * worldData.lastPosition.r_y;
+        physics.xIncrease = worldData.lastPosition.r_x;
+    }
+    public void EndGame()
+    {
+        worldData.slots = inventory.EndGame();
+        worldData._currentSlot = inventory._currentSlot;
+        FileHandler.SaveObject(worldData, playerWorldData);
+    }
     private void Update()
     {
         if (!Gameplay.instance.isPlayerPaused)
@@ -43,8 +63,10 @@ public class Player : MonoBehaviour
             GetPlayerInputs();
             placeCursorBlocks();
             HandleInventory();
+            HandleData();
             animator.SetBool("isWalking", physics.vertical != 0);
             animator.SetFloat("speed", Mathf.Abs(physics.vertical));
+
         }
         aim.eulerAngles = new Vector3(-physics.head.eulerAngles.x, transform.eulerAngles.y, 0);
         aim.transform.position = physics.head.position;
@@ -160,5 +182,53 @@ public class Player : MonoBehaviour
             }
         }
         return -1; // No number key was pressed
+    }
+
+    private void HandleData()
+    {
+        if(worldData == null)
+        {
+            worldData.lastPosition = new PlayerPosition(position, rotation);
+        }
+    }
+    [System.Serializable]
+    public class PlayerAccountInfo
+    {
+        public string name = "player";
+    }
+    [System.Serializable]
+    public class PlayerWorldData
+    {
+        public PlayerPosition lastPosition = new();
+        public int _currentSlot = 0;
+        public List<Inventory.Slot> slots = new();
+    }
+    [System.Serializable]
+    public class PlayerPosition
+    {
+        public float p_x;
+        public float p_y;
+        public float p_z;
+
+
+        public float r_x;
+        public float r_y;
+        public float r_z;
+
+        public PlayerPosition()
+        {
+
+        }
+        public PlayerPosition(Vector3 position, Vector3 rotation)
+        {
+            p_x = position.x;
+            p_y = position.y;
+            p_z = position.z;
+
+
+            r_x = rotation.x;
+            r_y = rotation.y;
+            r_z = rotation.z;
+        }
     }
 }
