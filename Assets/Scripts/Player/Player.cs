@@ -77,11 +77,11 @@ public class Player : MonoBehaviour
         rotation = aim.eulerAngles;
     }
 
+    readonly Vector3 offset = new(0.5f, 0.5f, 0.5f);
     private void placeCursorBlocks()
     {
         float step = checkIncrement;
         Vector3 lastPos = new Vector3();
-
         while (step < reach)
         {
 
@@ -89,8 +89,8 @@ public class Player : MonoBehaviour
 
             if (WorldData.IsBlockSolid(pos))
             {
-                highlightBlock.position = new Vector3(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
-                placeBlock.position = lastPos;
+                highlightBlock.position = new Vector3(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z)) + offset;
+                placeBlock.position = lastPos + offset;
 
                 highlightBlock.gameObject.SetActive(true);
                 placeBlock.gameObject.SetActive(true);
@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
             {
                 animator.SetTrigger("placing");
                 animator.SetBool("place", false);
-                BlockState block = WorldData.Block(new(highlightBlock.position));
+                BlockState block = WorldData.Block(new(highlightBlock.position - offset));
                 if (World.world.chunks.ContainsKey(block.position.chunkPosition.position))
                 {
                     inventory.AddItems(block.id, 1);
@@ -145,7 +145,7 @@ public class Player : MonoBehaviour
             {
                 animator.SetTrigger("placing");
                 animator.SetBool("place", true);
-                BlockState block = WorldData.Block(new(placeBlock.position));
+                BlockState block = WorldData.Block(new(placeBlock.position - offset));
                 if (World.world.chunks.ContainsKey(block.position.chunkPosition.position))
                 {
                     int placeID = inventory.TakeItem(inventory._currentSlot);

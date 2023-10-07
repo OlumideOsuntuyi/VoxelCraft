@@ -49,7 +49,7 @@ MonoBehaviour:
   plant: []
   elevation: 0
   caveSize: 0
-  waterHeight: 64
+  waterHeight: 63
   terrainBlock: 4
   treeLog: 19
   treeLeaves: 21

@@ -2,6 +2,7 @@
 using System.Linq;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
@@ -51,12 +52,14 @@ public class Inventory : MonoBehaviour
         }
         foreach (var slot in hotbarSlots)
         {
+            slot.invSrc = this;
             slot.id = slots[slot.index].id;
             slot.amount = slots[slot.index].amount;
         }
         foreach (var slot in invlots)
         {
             slot.id = slots[slot.index].id;
+            slot.invSrc = this;
             slot.amount = slots[slot.index].amount;
         }
     }
@@ -126,8 +129,23 @@ public class Inventory : MonoBehaviour
         Slot _a = slots[a];
         Slot _b = slots[b];
 
+        if(_a.id == _b.id)
+        {
+            int max = _a.max;
+            int sum = _a.amount + _b.amount;
+            int a_am = sum > max ? sum - max : sum;
+            _a.amount = a_am;
+            _b.amount = sum - a_am;
+        }
+
         slots[a] = _b;
         slots[b] = _a;
+
+        invlots[a].id = _b.id;
+        invlots[a].amount = _b.amount;
+
+        invlots[b].id = _a.id;
+        invlots[b].amount = _a.amount;
     }
 
     [System.Serializable]
@@ -135,7 +153,7 @@ public class Inventory : MonoBehaviour
     {
         public int id = 0;
         public int amount = 0;
-        private int max => WorldData.instance.GetBlockBaseInfo(id).stackMax;
+        public int max => WorldData.instance.GetBlockBaseInfo(id).stackMax;
         public void Update()
         {
             amount = Mathf.Clamp(amount, 0, max);

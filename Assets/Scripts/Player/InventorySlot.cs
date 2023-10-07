@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static Inventory;
+
 [DefaultExecutionOrder(-1)]
-public class InventorySlot : MonoBehaviour
+public class InventorySlot : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     public int index;
     public int id;
@@ -55,6 +58,18 @@ public class InventorySlot : MonoBehaviour
     }
     private void OnMouseDown()
     {
+
+    }
+    private void OnMouseDrag()
+    {
+
+    }
+    private void OnMouseUp()
+    {
+
+    }
+    public void OnPointerDown(PointerEventData eventData)
+    {
         if (!hotbar)
         {
             if (amount > 0)
@@ -62,27 +77,25 @@ public class InventorySlot : MonoBehaviour
                 click = true;
                 background.color = Color.blue * 0.5f;
             }
-            if (invSrc.selected != index)
-            {
-                invSrc.Swap(index, invSrc.selected);
-            }
         }
     }
-    private void OnMouseDrag()
+
+    public void OnDrag(PointerEventData eventData)
     {
         if (click && !hotbar)
         {
             dragging = true;
+            background.color = Color.clear;
             transform.position = Input.mousePosition;
             icon.transform.localScale = Vector3.one * 1.2f;
             count.transform.localScale = Vector3.one * 1.2f;
         }
     }
-    private void OnMouseUp()
+    public void OnPointerUp(PointerEventData eventData)
     {
         if (!hotbar)
         {
-            if (!click)
+            if (!dragging)
             {
 
             }
@@ -91,16 +104,35 @@ public class InventorySlot : MonoBehaviour
                 dragging = false;
                 click = false;
                 background.color = Color.clear;
+                OnSlot();
                 transform.position = pos;
                 icon.transform.localScale = Vector3.one * 1f;
                 count.transform.localScale = Vector3.one * 1f;
-                invSrc.selected = index;
             }
         }
     }
     void OnSlot()
     {
-
+        float min = 9999;
+        int id = 0;
+        for (int i = 0; i < invSrc.invlots.Count; i++)
+        {
+            if (invSrc.invlots[i].index != index)
+            {
+                float diff = Vector3.Distance(Input.mousePosition, invSrc.invlots[i].transform.position);
+                if (diff < min)
+                {
+                    min = diff;
+                    id = i;
+                }
+            }
+        }
+        if (id != index)
+        {
+            invSrc.Swap(index, id);
+            Update();
+            invSrc.invlots[id].Update();
+        }
     }
     public int TakeItem()
     {

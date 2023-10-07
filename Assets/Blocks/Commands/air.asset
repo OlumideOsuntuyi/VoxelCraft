@@ -18,7 +18,7 @@ MonoBehaviour:
   meshData: {fileID: 11400000, guid: a529bc624fb90ad4b816b284c835494a, type: 2}
   transparency: 1
   emission: 0
-  stackMax: 1
+  stackMax: 0
   walkMultiplier: 1
   walkObstructionMultiplier: 1
   gravityMultiplier: 1
