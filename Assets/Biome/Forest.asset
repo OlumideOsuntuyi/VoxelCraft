@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f98f3a1391c133749bf23cd2e0c65a3d, type: 3}
-  m_Name: Tundra
+  m_Name: Forest
   m_EditorClassIdentifier: 
   biomeName: 
-  id: 3
+  id: 0
   type: {fileID: 11400000, guid: db3d3e67cf470af4fb5b0bba3638cb49, type: 2}
   sediments:
   - id: 3
@@ -23,12 +23,6 @@ MonoBehaviour:
     minHeight: 0
     maxHeight: 1
   rocks:
-  - id: 15
-    scale: 1
-    offset: 0.5
-    threshold: 0
-    minHeight: 0.5
-    maxHeight: 1
   - id: 2
     scale: 1
     offset: 0.5
@@ -79,9 +73,9 @@ MonoBehaviour:
   elevation: 0
   caveSize: 0
   waterHeight: 63
-  terrainBlock: 14
-  treeLog: 0
-  treeLeaves: 0
-  grassColor: {r: 0.8, g: 0.69803923, b: 0.2, a: 1}
-  waterColor: {r: 0.57254905, g: 0.84705883, b: 0.9529412, a: 1}
-  biomeTint: {r: 0.5137255, g: 0.6509804, b: 0.5137255, a: 1}
+  terrainBlock: 4
+  treeLog: 19
+  treeLeaves: 21
+  grassColor: {r: 0.8, g: 0.7, b: 0.2, a: 1}
+  waterColor: {r: 0.57079923, g: 0.8476332, b: 0.9528302, a: 1}
+  biomeTint: {r: 0.8784314, g: 0.87236935, b: 0.7176471, a: 1}

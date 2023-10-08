@@ -1,20 +1,31 @@
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.XR;
-
-using static UnityEditor.PlayerSettings;
 
 public class WorldGeneration : MonoBehaviour
 {
     public static WorldGeneration instance;
-    public List<Biome> biomes = new List<Biome>();
+    public static Dictionary<int, Biome> biomes = new();
     public Material[] materials = new Material[3];
     internal FastNoise noise = new();
     [SerializeField, Tooltip("Sorted by height")] private List<BiomeHeightTable> overworldBiomes = new();
+    public string searchFolderPath = "Assets";
+    public string scriptableObjectName = "Biome";
     private void Awake()
     {
         instance = this;
+    }
+    private void Start()
+    {
+        var biomes_ = WorldData.instance.FindScriptableObjectsInFolder<Biome>(searchFolderPath, scriptableObjectName);
+        biomes = new Dictionary<int, Biome>();
+        foreach (Biome biome in biomes_)
+        {
+            if (!biomes.ContainsKey(biome.id))
+            {
+                biomes.Add(biome.id, biome);
+            }
+        }
     }
     public void StartGame()
     {
@@ -29,7 +40,7 @@ public class WorldGeneration : MonoBehaviour
         int id = 0;
         for (int i = 0; i < overworldBiomes.Count; i++)
         {
-            if(height <= overworldBiomes[i].height)
+            if(height >= overworldBiomes[i].height)
             {
                 id = i;
             }
@@ -59,7 +70,6 @@ public class WorldGeneration : MonoBehaviour
                         int id = GetBlockType(posWorld.x, posWorld.y, posWorld.z, biome, position.position);
                         BlockState state = new(id, pos_);
                         WorldData.SetBlock(state, pos_);
-
                     }
                 }
             }

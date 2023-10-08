@@ -125,7 +125,7 @@ public class SubChunk
         int x = Mathf.FloorToInt(pos.x);
         int y = Mathf.FloorToInt(pos.y);
         int z = Mathf.FloorToInt(pos.z);
-        Biome biome = WorldGeneration.instance.biomes[position.BiomeIndex];
+        Biome biome = WorldGeneration.biomes[position.BiomeIndex];
         BlockPosition blockPos = new BlockPosition(new(x, y, z), position);
         BlockState voxel = WorldData.Block(blockPos);
         var blockProperty = voxel.block;

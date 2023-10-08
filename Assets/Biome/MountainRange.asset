@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MountainRange
   m_EditorClassIdentifier: 
   biomeName: 
+  id: 1
   type: {fileID: 11400000, guid: 9248272329d74d7449a41d5e87602c38, type: 2}
   sediments:
   - id: 3
@@ -31,11 +32,39 @@ MonoBehaviour:
   caveBlocks: []
   terrainScale: 0
   caveScale: 0
-  treeScale: 0
-  treeLumpScale: 0
-  treeThreshold: 0
-  treeLumpThreshold: 0
-  trees: []
+  treeScale: 1
+  treeLumpScale: 2
+  treeThreshold: 0.5
+  treeLumpThreshold: 0.7
+  trees:
+  - leaves:
+    - name: top
+      noMiddleLog: 1
+      depth: -1
+      size: 1
+      type: 3
+    - name: criss-cross
+      noMiddleLog: 1
+      depth: 0
+      size: 1
+      type: 2
+    - name: criss-cross with log
+      noMiddleLog: 0
+      depth: 1
+      size: 1
+      type: 2
+    - name: full
+      noMiddleLog: 0
+      depth: 2
+      size: 2
+      type: 3
+    - name: full 2
+      noMiddleLog: 0
+      depth: 3
+      size: 2
+      type: 3
+    minLog: 7
+    maxLog: 10
   plantsScale: 1
   plantsGroupOffset: 0.5
   plantsGroupThreshold: 0.5

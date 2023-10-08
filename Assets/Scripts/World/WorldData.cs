@@ -32,7 +32,7 @@ public class WorldData : MonoBehaviour
         });
     }
 
-    List<T> FindScriptableObjectsInFolder<T>(string folderPath, string scriptableObjectName) where T : ScriptableObject
+    internal List<T> FindScriptableObjectsInFolder<T>(string folderPath, string scriptableObjectName) where T : ScriptableObject
     {
         List<T> scriptableObjects = new List<T>();
 

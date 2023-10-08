@@ -907,6 +907,40 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 61056c4e5e0265d4eb08fd823813ca30, type: 2}
   - {fileID: 2100000, guid: 75e11461737fa0a48af525dcdf38a0e2, type: 2}
   - {fileID: 2100000, guid: f8a6f61d6fca94242946f56100a7a22b, type: 2}
+  overworldBiomes:
+  - name: ocean
+    height: 0.1
+    biomes:
+    - name: cold
+      temperature: 1
+      biome: {fileID: 11400000, guid: 18332904309775244a131e1965f4533a, type: 2}
+  - name: low
+    height: 0.4
+    biomes:
+    - name: hot
+      temperature: 1
+      biome: {fileID: 11400000, guid: 8c0981b3d897a454498962ef3bdf5497, type: 2}
+    - name: warm
+      temperature: 0.5
+      biome: {fileID: 11400000, guid: dcbb62931ae494943866bd7c1ed23b82, type: 2}
+    - name: cold
+      temperature: 0
+      biome: {fileID: 11400000, guid: 398310ac1de2f9c4aafff0314cbc86f3, type: 2}
+  - name: mid
+    height: 0.7
+    biomes:
+    - name: 
+      temperature: 1
+      biome: {fileID: 11400000, guid: 1915e82bfbacd7348828734f6205ca0b, type: 2}
+    - name: 
+      temperature: 0.4
+      biome: {fileID: 11400000, guid: 36824ba7e9449ce42a70bf4bc1b22789, type: 2}
+  - name: high
+    height: 1
+    biomes:
+    - name: 
+      temperature: 0
+      biome: {fileID: 11400000, guid: 62219b4ef756e83448a2abfcfc33f06b, type: 2}
 --- !u!1 &75978538
 GameObject:
   m_ObjectHideFlags: 0
@@ -25039,9 +25073,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1883579473}
-  m_LocalRotation: {x: 0, y: 0, z: 0.36454287, w: 0.9311866}
+  m_LocalRotation: {x: 0, y: 0, z: 0.35354653, w: 0.935417}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0448219, y: 1.0448219, z: 1.0448219}
+  m_LocalScale: {x: 1.0718246, y: 1.0718246, z: 1.0718246}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 925048190}

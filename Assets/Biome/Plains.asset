@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Plains
   m_EditorClassIdentifier: 
   biomeName: 
+  id: 0
   type: {fileID: 11400000, guid: 8bba1d0e14a02024ca67e65ec6ffd46d, type: 2}
   sediments:
   - id: 3
@@ -31,17 +32,39 @@ MonoBehaviour:
   caveBlocks: []
   terrainScale: 0
   caveScale: 0
-  treeScale: 2
-  treeLumpScale: 1
-  treeThreshold: 0.4
-  treeLumpThreshold: 0.4
+  treeScale: 1
+  treeLumpScale: 2
+  treeThreshold: 0.5
+  treeLumpThreshold: 0.7
   trees:
   - leaves:
-    - name: 
-      layer:
-      - {x: 0, y: 1, z: 0}
-    minLog: 5
-    maxLog: 7
+    - name: top
+      noMiddleLog: 1
+      depth: -1
+      size: 1
+      type: 3
+    - name: criss-cross
+      noMiddleLog: 1
+      depth: 0
+      size: 1
+      type: 2
+    - name: criss-cross with log
+      noMiddleLog: 0
+      depth: 1
+      size: 1
+      type: 2
+    - name: full
+      noMiddleLog: 0
+      depth: 2
+      size: 2
+      type: 3
+    - name: full 2
+      noMiddleLog: 0
+      depth: 3
+      size: 2
+      type: 3
+    minLog: 7
+    maxLog: 10
   plantsScale: 0
   plantsGroupOffset: 0
   plantsGroupThreshold: 0
@@ -53,6 +76,6 @@ MonoBehaviour:
   terrainBlock: 4
   treeLog: 19
   treeLeaves: 21
-  grassColor: {r: 0.8784314, g: 0.87058824, b: 0.7176471, a: 1}
+  grassColor: {r: 0.8, g: 0.7, b: 0.2, a: 1}
   waterColor: {r: 0.57079923, g: 0.8476332, b: 0.9528302, a: 1}
   biomeTint: {r: 0.8784314, g: 0.87236935, b: 0.7176471, a: 1}

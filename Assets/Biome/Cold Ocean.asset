@@ -10,25 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f98f3a1391c133749bf23cd2e0c65a3d, type: 3}
-  m_Name: Desert
+  m_Name: Cold Ocean
   m_EditorClassIdentifier: 
   biomeName: 
-  id: 2
-  type: {fileID: 11400000, guid: 8bba1d0e14a02024ca67e65ec6ffd46d, type: 2}
-  sediments:
-  - id: 5
-    scale: 1
-    offset: 0.5
-    threshold: 0
-    minHeight: 0
-    maxHeight: 1
-  rocks:
-  - id: 5
-    scale: 1
-    offset: 0.5
-    threshold: 0
-    minHeight: 0
-    maxHeight: 1
+  id: 4
+  type: {fileID: 11400000, guid: ce24eb99f3a3bf54f8fcd6542ba7ebe5, type: 2}
+  sediments: []
+  rocks: []
   caveBlocks: []
   terrainScale: 0
   caveScale: 0
@@ -45,9 +33,9 @@ MonoBehaviour:
   elevation: 0
   caveSize: 0
   waterHeight: 63
-  terrainBlock: 5
+  terrainBlock: 0
   treeLog: 0
   treeLeaves: 0
-  grassColor: {r: 0.7176471, g: 0.8784314, b: 0.7176471, a: 1}
-  waterColor: {r: 0.57254905, g: 0.84705883, b: 0.9529412, a: 1}
-  biomeTint: {r: 0.7176471, g: 0.8784314, b: 0.7176471, a: 1}
+  grassColor: {r: 1, g: 1, b: 1, a: 1}
+  waterColor: {r: 0.18396229, g: 0.2077245, b: 1, a: 1}
+  biomeTint: {r: 1, g: 1, b: 1, a: 1}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c50bbecb069dd54468bc029a71340839, type: 3}
-  m_Name: SlopyHills
+  m_Name: Ocean
   m_EditorClassIdentifier: 
   continentScale: 1
   continentOctaves: 1
@@ -50,17 +50,17 @@ MonoBehaviour:
   pvOctaves: 4
   pvAmplitude: 1
   pvPoints:
-  - value: 0
+  - value: -2
     time: -1
-  - value: 30
-    time: -0.5
-  - value: 0
+  - value: -20
+    time: -0.9
+  - value: -20
     time: 0
-  - value: 30
-    time: 0.5
-  - value: 0
+  - value: -20
+    time: 0.9
+  - value: -2
     time: 1
-  caveHeight: 64
+  caveHeight: 10
   minCaveThreshold: 0
   maxCaveThreshold: 1
   minCaveSize: 0.02
