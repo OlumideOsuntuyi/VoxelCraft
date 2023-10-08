@@ -16,7 +16,7 @@ MonoBehaviour:
   id: 50
   icon: {fileID: 21300000, guid: bc3778895befb0342b379683f3c812f6, type: 3}
   meshData: {fileID: 11400000, guid: 82b4308c5d6b31e4c931f6209ab5e468, type: 2}
-  transparency: 0
+  transparency: 1
   emission: 0
   stackMax: 64
   walkMultiplier: 1
@@ -27,7 +27,7 @@ MonoBehaviour:
   renderNeighbourFaces: 1
   isSolid: 0
   isWater: 0
-  isPlant: 0
+  isPlant: 1
   isActiveBlock: 0
   canRotate: 0
   canSpread: 0
@@ -36,22 +36,16 @@ MonoBehaviour:
   canBreak: 0
   isGravity: 0
   faceTextures:
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: bc3778895befb0342b379683f3c812f6, type: 3}
+    uv: {x: 26, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: bc3778895befb0342b379683f3c812f6, type: 3}
+    uv: {x: 26, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: bc3778895befb0342b379683f3c812f6, type: 3}
+    uv: {x: 26, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
-    tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
-    tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: bc3778895befb0342b379683f3c812f6, type: 3}
+    uv: {x: 6, y: 0}
     tintType: 0
   walkAudio: {fileID: 0}

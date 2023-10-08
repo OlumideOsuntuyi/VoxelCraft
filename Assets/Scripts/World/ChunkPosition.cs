@@ -34,6 +34,17 @@ public class ChunkPosition
     }
     public ChunkPosition(Vector3 worldPos)
     {
+        x = (int)(worldPos.x / 16);
+        if (worldPos.x < 0)
+        {
+            x = Mathf.CeilToInt(Mathf.Abs(worldPos.x / 16)) * -1;
+        }
+        z = (int)(worldPos.z / 16);
+        if (worldPos.z < 0)
+        {
+            z = Mathf.CeilToInt(Mathf.Abs(worldPos.z / 16)) * -1;
+        }
+        /*
         position = new Vector2Int((int)(worldPos.x / Settings.instance.chunkSize.x), (int)(worldPos.z / Settings.instance.chunkSize.x));
         if(worldPos.x < 0)
         {
@@ -43,6 +54,7 @@ public class ChunkPosition
         {
             z -= 1;
         }
+        */
     }
     public bool Equals(ChunkPosition other)
     {

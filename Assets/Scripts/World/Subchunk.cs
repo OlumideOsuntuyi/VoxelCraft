@@ -131,11 +131,11 @@ public class SubChunk
         var blockProperty = voxel.block;
         if (blockProperty.isActiveBlock)
         {
-            chunk.activeBlocks.Add(voxel.position);
+            World.world.chunks[position.position].activeBlocks.Add(voxel.position);
         }
         if (blockProperty.isGravity)
         {
-            chunk.gravityBlocks.Add(voxel.position);
+            World.world.chunks[position.position].gravityBlocks.Add(voxel.position);
         }
         if (voxel.id == 0)
         {

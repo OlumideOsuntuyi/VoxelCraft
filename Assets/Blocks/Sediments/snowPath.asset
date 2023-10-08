@@ -20,7 +20,10 @@ MonoBehaviour:
   emission: 0
   stackMax: 64
   walkMultiplier: 0.9
+  walkObstructionMultiplier: 1
+  gravityMultiplier: 1
   occlusionStrength: 1
+  fallDamageNegation: 0
   renderNeighbourFaces: 0
   isSolid: 1
   isWater: 0
@@ -33,22 +36,22 @@ MonoBehaviour:
   canBreak: 1
   isGravity: 0
   faceTextures:
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 1432b93740905594ea3b4cc5dce60076, type: 3}
+    uv: {x: 17, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 1432b93740905594ea3b4cc5dce60076, type: 3}
+    uv: {x: 17, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 0dae473326d2ed440bef01e2ccc08312, type: 3}
+    uv: {x: 3, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: db0f2f00f2389ce4384523ad255a1333, type: 3}
+    uv: {x: 17, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 1432b93740905594ea3b4cc5dce60076, type: 3}
+    uv: {x: 17, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 1432b93740905594ea3b4cc5dce60076, type: 3}
+    uv: {x: 17, y: 0}
     tintType: 0
   walkAudio: {fileID: 0}

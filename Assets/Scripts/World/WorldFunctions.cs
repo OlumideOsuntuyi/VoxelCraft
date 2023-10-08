@@ -28,20 +28,22 @@ public static class WorldFunctions
     }
     public static Vector3Int WorldToLocalPosition(Vector3 position)
     {
-        Vector3Int pos = new Vector3Int
-        {
-            x = Mathf.Abs((int)position.x % 16),
-            y = (int)position.y,
-            z = Mathf.Abs((int)position.z % 16)
-        };
+        int c_x = (int)(position.x / 16);
         if(position.x < 0)
         {
-            pos.x = 15 - pos.x;
+            c_x = Mathf.CeilToInt(Mathf.Abs(position.x / 16)) * -1;
         }
-        if(position.z < 0)
+        int c_z = (int)(position.z / 16);
+        if (position.z < 0)
         {
-            pos.z = 15 - pos.z;
+            c_z = Mathf.CeilToInt(Mathf.Abs(position.z / 16)) * -1;
         }
+        Vector3Int pos = new Vector3Int
+        {
+            x = (int)position.x - (c_x * 16),
+            y = (int)position.y,
+            z = (int)position.z - (c_z * 16)
+        };
         return pos;
     }
 }

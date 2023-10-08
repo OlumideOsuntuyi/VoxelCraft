@@ -13,7 +13,7 @@ public class Chunk
     internal List<BlockPosition> activeBlocks = new();
     internal List<BlockPosition> gravityBlocks = new();
     public bool seedGenerated => WorldData.IsBlock(WorldFunctions.ChunkToWorldPosition(position));
-    bool _editable;
+    [SerializeField] private bool _editable;
     public bool isEditable
     {
         get
@@ -21,7 +21,7 @@ public class Chunk
             return _isActive && seedGenerated && _editable && chunkObject != null;
         }
     }
-    internal bool statechange = true;
+    public bool statechange = true;
     private bool _isActive = false;
     public bool chunkDrawn;
     public bool chunkWaitingForDraw;
@@ -130,6 +130,10 @@ public class Chunk
     {
         var pre = WorldData.Block(position);
         var post = new BlockState(id, position);
+
+
+        post.blockLight = pre.blockLight;
+        post.skylight = pre.skylight;
         post.orientation = orientation;
         WorldData.SetBlock(post, post.position);
         Debug.Log($"replaced block {pre.block.name} with {post.block.blockName}");
@@ -146,8 +150,8 @@ public class Chunk
     }
     public void Update()
     {
-        //UpdateGravityBlocks();
-        //UpdateActiveBlocks();
+        UpdateGravityBlocks();
+        UpdateActiveBlocks();
         UpdateChunkData();
         chunkComponent.updating++;
     }
@@ -224,6 +228,7 @@ public class Chunk
     }
     void UpdateActiveBlocks()
     {
+        List<int> dirs = new() { 0, 1, 4, 5 };
         foreach (var blockPos in activeBlocks)
         {
             var block = WorldData.Block(blockPos);
@@ -235,27 +240,34 @@ public class Chunk
                 {
                     blocks[f] = WorldData.Block(new BlockPosition(blockPos.worldPosition + VoxelData.faceChecks[f]));
                     var blockFProp = blocks[f].block;
-                    if (blockFProp.id > 1)
+                    if (blockProp.isSolid)
                     {
+                        if (blockProp.id > 1)
+                        {
 
-                    }
-                    else if (blockFProp.id == 0)
-                    {
+                        }
+                        else if (blockProp.id == 0)
+                        {
 
+                        }
                     }
-                    if (blockProp.isWater && !blockFProp.isSolid && block._state > blocks[f]._state)
+                    if (dirs.Contains(f))
                     {
-                        blocks[f] = new BlockState(block.id, blocks[f].position);
-                        blocks[f]._state = (byte)(block._state - 1);
-                        WorldData.SetBlock(blocks[f], blocks[f].position);
+                        if (blockProp.isWater && !blockFProp.isSolid && block._state > 2)
+                        {
+                            blocks[f] = new(block.id, blocks[f].position);
+                            blocks[f]._state = (byte)(block._state - 1);
+                            WorldData.SetBlock(blocks[f], blocks[f].position);
+                        }
                     }
                 }
             }
+            statechange = true;
         }
     }
     void UpdateGravityBlocks()
     {
-        foreach (var blockPos in activeBlocks)
+        foreach (var blockPos in gravityBlocks)
         {
             var block = WorldData.Block(blockPos);
             var blockProp = block.block;
@@ -266,10 +278,11 @@ public class Chunk
 
                 if (!blockFProp.isSolid)
                 {
-                    WorldData.SetBlock(new BlockState(0, block.position), block.position);
+                    WorldData.SetBlock(down, block.position);
                     WorldData.SetBlock(block, down.position);
                 }
             }
+            statechange = true;
         }
     }
     void SwapBlocks(BlockState one, BlockState two)

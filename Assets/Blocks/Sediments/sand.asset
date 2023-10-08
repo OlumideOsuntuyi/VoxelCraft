@@ -20,7 +20,10 @@ MonoBehaviour:
   emission: 0
   stackMax: 64
   walkMultiplier: 1
+  walkObstructionMultiplier: 1
+  gravityMultiplier: 1
   occlusionStrength: 1
+  fallDamageNegation: 0
   renderNeighbourFaces: 0
   isSolid: 1
   isWater: 0
@@ -31,7 +34,7 @@ MonoBehaviour:
   canPower: 0
   isPowered: 0
   canBreak: 1
-  isGravity: 0
+  isGravity: 1
   faceTextures:
   - texture: {fileID: 21300000, guid: f6fe53a20cc0bf34ab681ce506902d06, type: 3}
     uv: {x: 6, y: 0}

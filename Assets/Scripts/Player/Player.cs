@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
     {
         worldData = FileHandler.LoadObject<PlayerWorldData>(playerWorldData);
         inventory.StartGame(worldData.slots, worldData._currentSlot);
+        survival.StartGame();
         transform.position = new Vector3(worldData.lastPosition.p_x, worldData.lastPosition.p_y, worldData.lastPosition.p_z);
         transform.eulerAngles += Vector3.up * worldData.lastPosition.r_y;
         physics.xIncrease = worldData.lastPosition.r_x;
@@ -52,6 +53,7 @@ public class Player : MonoBehaviour
         worldData.slots = inventory.EndGame();
         worldData._currentSlot = inventory._currentSlot;
         FileHandler.SaveObject(worldData, playerWorldData);
+        survival.EndGame();
     }
     private void Update()
     {

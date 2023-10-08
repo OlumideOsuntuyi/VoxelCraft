@@ -81,7 +81,7 @@ fixed4 fragFunction(v2f i) : SV_Target
     col = float4(col.r * i.color.r, col.g * i.color.g, col.b * i.color.b, col.a);
     col = lerp(col, float4(0, 0, 0, 1), shade);
     
-    col.a = 0.7f;
+    col.a = 0.5f;
 					
     return col;
 

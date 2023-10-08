@@ -36,22 +36,22 @@ MonoBehaviour:
   canBreak: 1
   isGravity: 0
   faceTextures:
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 2b06b56d8279cf849ae9b2a9053c05d0, type: 3}
+    uv: {x: 8, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 2b06b56d8279cf849ae9b2a9053c05d0, type: 3}
+    uv: {x: 8, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 2b06b56d8279cf849ae9b2a9053c05d0, type: 3}
+    uv: {x: 8, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 2b06b56d8279cf849ae9b2a9053c05d0, type: 3}
+    uv: {x: 8, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 2b06b56d8279cf849ae9b2a9053c05d0, type: 3}
+    uv: {x: 8, y: 0}
     tintType: 0
-  - texture: {fileID: 21300000, guid: 9bd1ace140860414489444d822fbb4ad, type: 3}
-    uv: {x: 2, y: 0}
+  - texture: {fileID: 21300000, guid: 2b06b56d8279cf849ae9b2a9053c05d0, type: 3}
+    uv: {x: 8, y: 0}
     tintType: 0
   walkAudio: {fileID: 0}

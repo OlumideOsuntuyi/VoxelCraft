@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3202302a0f90cf840a72ba3e0c0ad2e5, type: 3}
   m_Name: oak planks
   m_EditorClassIdentifier: 
-  blockName: 
-  id: 0
+  blockName: oak plank
+  id: 20
   icon: {fileID: 21300000, guid: fafdb0e92db1378438ffc3a6f4a6c804, type: 3}
   meshData: {fileID: 11400000, guid: a529bc624fb90ad4b816b284c835494a, type: 2}
   transparency: 0
@@ -35,5 +35,23 @@ MonoBehaviour:
   isPowered: 0
   canBreak: 0
   isGravity: 0
-  faceTextures: []
+  faceTextures:
+  - texture: {fileID: 21300000, guid: d3333f50f612ae34fad4b123dee5c7b6, type: 3}
+    uv: {x: 27, y: 0}
+    tintType: 0
+  - texture: {fileID: 21300000, guid: d3333f50f612ae34fad4b123dee5c7b6, type: 3}
+    uv: {x: 27, y: 0}
+    tintType: 0
+  - texture: {fileID: 21300000, guid: d3333f50f612ae34fad4b123dee5c7b6, type: 3}
+    uv: {x: 27, y: 0}
+    tintType: 0
+  - texture: {fileID: 21300000, guid: d3333f50f612ae34fad4b123dee5c7b6, type: 3}
+    uv: {x: 27, y: 0}
+    tintType: 0
+  - texture: {fileID: 21300000, guid: d3333f50f612ae34fad4b123dee5c7b6, type: 3}
+    uv: {x: 27, y: 0}
+    tintType: 0
+  - texture: {fileID: 21300000, guid: d3333f50f612ae34fad4b123dee5c7b6, type: 3}
+    uv: {x: 27, y: 0}
+    tintType: 0
   walkAudio: {fileID: 0}

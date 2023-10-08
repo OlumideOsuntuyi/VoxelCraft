@@ -76,21 +76,24 @@ public class BlockState
                 {
                     var neiPos = new BlockPosition(position.worldPosition + block.meshData.faces[p].normal);
 
-                    var nei = WorldData.Block(neiPos);
-                    maxNeighbourLight = (byte)Mathf.Max(maxNeighbourLight, nei.skylight - 1);
-                    if(prevLight > value)
+                    if (WorldData.IsBlock(neiPos) && neiPos.position != position.position)
                     {
-                        if (prevLight - 1 == nei.skylight && nei.skylight > 0)
+                        var nei = WorldData.Block(neiPos);
+                        maxNeighbourLight = (byte)Mathf.Max(maxNeighbourLight, nei.skylight - 1);
+                        if (prevLight > value)
                         {
-                            nei.skylight -= 1;
-                            WorldData.SetBlock(nei, nei.position);
+                            if (prevLight - 1 == nei.skylight && nei.skylight > 0)
+                            {
+                                nei.skylight -= 1;
+                                WorldData.SetBlock(nei, nei.position);
+                            }
                         }
-                    }
-                    else
-                    {
-                        if(maxNeighbourLight - 1 > nei.skylight && nei.skylight < 14)
+                        else
                         {
-                            nei.skylight += 1;
+                            if (maxNeighbourLight - 1 > nei.skylight && nei.skylight < 14)
+                            {
+                                nei.skylight += 1;
+                            }
                         }
                     }
                 }
@@ -112,21 +115,24 @@ public class BlockState
                 {
                     var neiPos = new BlockPosition(position.worldPosition + block.meshData.faces[p].normal);
 
-                    var nei = WorldData.Block(neiPos);
-                    maxNeighbourLight = (byte)Mathf.Max(maxNeighbourLight, nei.blockLight - 1);
-                    if (prevLight > value)
+                    if (WorldData.IsBlock(neiPos) && neiPos.position != position.position)
                     {
-                        if (prevLight - 1 == nei.blockLight && nei.blockLight > 0)
+                        var nei = WorldData.Block(neiPos);
+                        maxNeighbourLight = (byte)Mathf.Max(maxNeighbourLight, nei.blockLight - 1);
+                        if (prevLight > value)
                         {
-                            nei.blockLight -= 1;
-                            WorldData.SetBlock(nei, nei.position);
+                            if (prevLight - 1 == nei.blockLight && nei.blockLight > 0)
+                            {
+                                nei.blockLight -= 1;
+                                WorldData.SetBlock(nei, nei.position);
+                            }
                         }
-                    }
-                    else
-                    {
-                        if (maxNeighbourLight - 1 > nei.blockLight && nei.blockLight < 14)
+                        else
                         {
-                            nei.blockLight += 1;
+                            if (maxNeighbourLight - 1 > nei.blockLight && nei.blockLight < 14)
+                            {
+                                nei.blockLight += 1;
+                            }
                         }
                     }
                 }

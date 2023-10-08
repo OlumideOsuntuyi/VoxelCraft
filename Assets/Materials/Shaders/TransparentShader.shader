@@ -62,15 +62,18 @@ v2f vertFunction(appdata v)
 
 fixed4 fragFunction(v2f i) : SV_Target
 {
-			
     float light = max(i.uv2.x, i.uv2.y);
     float ao = i.color.a;
     float shade = light * ao * _GlobalLightLevel;
     shade = 1 - shade;
 	
     fixed4 col = tex2D(_MainTex, i.uv);
-    col = float4(col.r * i.color.r, col.g * i.color.g, col.b * i.color.b, col.a);
-    col = lerp(col, float4(0, 0, 0, 1), shade);
+    clip(col.a);
+    if (col.a > 0)
+    {
+        col = float4(col.r * i.color.r, col.g * i.color.g, col.b * i.color.b, col.a);
+        col = lerp(col, float4(0, 0, 0, 1), shade);
+    }
 
     return col;
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Desert
   m_EditorClassIdentifier: 
   biomeName: 
-  type: {fileID: 11400000, guid: 8bba1d0e14a02024ca67e65ec6ffd46d, type: 2}
+  type: {fileID: 11400000, guid: db3d3e67cf470af4fb5b0bba3638cb49, type: 2}
   sediments:
   - id: 3
     scale: 1

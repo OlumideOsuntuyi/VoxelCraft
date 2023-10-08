@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f98f3a1391c133749bf23cd2e0c65a3d, type: 3}
-  m_Name: Tundra
+  m_Name: MountainRange
   m_EditorClassIdentifier: 
   biomeName: 
-  type: {fileID: 11400000, guid: db3d3e67cf470af4fb5b0bba3638cb49, type: 2}
+  type: {fileID: 11400000, guid: 9248272329d74d7449a41d5e87602c38, type: 2}
   sediments:
   - id: 3
     scale: 1
@@ -22,12 +22,6 @@ MonoBehaviour:
     minHeight: 0
     maxHeight: 1
   rocks:
-  - id: 15
-    scale: 1
-    offset: 0.5
-    threshold: 0
-    minHeight: 0.5
-    maxHeight: 1
   - id: 2
     scale: 1
     offset: 0.5
@@ -42,15 +36,21 @@ MonoBehaviour:
   treeThreshold: 0
   treeLumpThreshold: 0
   trees: []
-  plantsScale: 0
-  plantsGroupOffset: 0
-  plantsGroupThreshold: 0
-  plantsThreshold: 0
-  plant: []
+  plantsScale: 1
+  plantsGroupOffset: 0.5
+  plantsGroupThreshold: 0.5
+  plantsThreshold: 5
+  plant:
+  - id: 49
+    scale: 1
+    offset: 0
+    threshold: 0.5
+    minHeight: 0
+    maxHeight: 1
   elevation: 0
   caveSize: 0
   waterHeight: 63
-  terrainBlock: 14
+  terrainBlock: 4
   treeLog: 0
   treeLeaves: 0
   grassColor: {r: 0.5127714, g: 0.6509434, b: 0.5127714, a: 1}

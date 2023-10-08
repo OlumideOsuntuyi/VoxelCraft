@@ -208,22 +208,38 @@ public class ChunkLoadingManager : MonoBehaviour
             debugInfo.chunkModCount = chunkModifications.Count;
             lock (chunkModifications)
             {
+                List<Vector2Int> chunksToMod = new();
+                Queue<VoxelMod> queueRepass = new();
                 while (chunkModifications.Count > 0)
                 {
-                    Queue<VoxelMod> queue; ;
+                    Queue<VoxelMod> queue;
                     queue = chunkModifications.Dequeue();
                     while (queue.Count > 0)
                     {
                         var b = queue.Dequeue();
                         BlockState newMod = new BlockState(b.id, new BlockPosition(b.position));
-                        WorldData.SetBlock(newMod, newMod.position);
                         var cPos = newMod.position.chunkPosition.position;
                         if (World.world.chunks.ContainsKey(cPos))
                         {
-                            World.world.chunks[cPos].statechange = true;
-                            World.world.chunks[cPos].chunkComponent.layerToDraw = -1;
-                            World.world.chunks[cPos].chunkComponent.drawMesh = true;
+                            if (!chunksToMod.Contains(cPos))
+                            {
+                                chunksToMod.Add(cPos);
+                            }
+                            WorldData.SetBlock(newMod, newMod.position);
                         }
+                        else
+                        {
+                            queueRepass.Enqueue(b);
+                        }
+                    }
+                }
+                chunkModifications.Enqueue(queueRepass);
+                foreach(var cPos in chunksToMod)
+                {
+                    if (World.world.chunks.ContainsKey(cPos))
+                    {
+                        World.world.chunks[cPos].statechange = true;
+                        World.world.chunks[cPos].GenerateMeshData();
                     }
                 }
             }
@@ -259,6 +275,11 @@ public class ChunkLoadingManager : MonoBehaviour
                 prevChunk = playerChunkPosition.position;
                 foreach (var chunk in activeChunks)
                 {
+                    ChunkPosition pos = new(chunk.position);
+                    Vector3 worldPos = WorldFunctions.ChunkToWorldPosition(pos);
+                    Vector3 center = worldPos + (Vector3.up * 128);
+                    Vector3 size = new Vector3(16, 256, 16);
+                    bool viewed = !CubeInFieldOfView.IsCubeNotInFieldOfView(center, size);
                     if (!World.world.chunks[chunk.position].isWithinRenderDistance)
                     {
                         World.world.chunks[chunk.position].Unload();
@@ -267,23 +288,30 @@ public class ChunkLoadingManager : MonoBehaviour
                 activeChunks.Clear();
                 foreach (Vector2Int chunkPosition in sortedChunkPositions)
                 {
-                    ChunkPosition pos = new ChunkPosition(chunkPosition + playerChunkPosition.position);
-                    if (!World.world.chunks.ContainsKey(pos.position))
+                    ChunkPosition pos = new(chunkPosition + playerChunkPosition.position);
+                    Vector3 worldPos = WorldFunctions.ChunkToWorldPosition(pos);
+                    Vector3 center = worldPos + new Vector3(8, 128, 8);
+                    Vector3 size = new(16, 256, 16);
+                    bool viewed = !CubeInFieldOfView.IsCubeNotInFieldOfView(center, size) || true;
+                    if (viewed)
                     {
-                        Chunk c = new(pos);
-                        World.world.chunks.Add(pos.position, c);
-                        World.world.chunks[pos.position].Init();
-                    }
-                    if (World.world.chunks.ContainsKey(pos.position))
-                    {
-                        if (!activeChunkPass.Contains(pos))
+                        Debug.Log("in frustum");
+                        if (!World.world.chunks.ContainsKey(pos.position))
                         {
-                            activeChunkPass.Add(pos);
-                            activeChunks.Add(pos);
+                            Chunk c = new(pos);
+                            World.world.chunks.Add(pos.position, c);
+                            World.world.chunks[pos.position].Init();
                         }
-                        World.world.chunks[pos.position].Load();
+                        if (World.world.chunks.ContainsKey(pos.position))
+                        {
+                            if (!activeChunkPass.Contains(pos))
+                            {
+                                activeChunkPass.Add(pos);
+                                activeChunks.Add(pos);
+                            }
+                            World.world.chunks[pos.position].Load();
+                        }
                     }
-                    yield return null;
                 }
                 lock (activeChunkPass)
                 {
@@ -314,5 +342,96 @@ public class ChunkLoadingManager : MonoBehaviour
     {
         public Vector2Int chunk;
         public int subChunk;
+    }
+}
+public class CameraFrustumCheck
+{
+    public static Camera mainCamera => Gameplay.instance.cam; // Assign your camera reference in the Inspector.
+
+    // Check if a cube defined by its center and size is within the camera's frustum.
+    public static bool IsCubeInFrustum(Vector3 center, Vector3 size)
+    {
+        // Get the camera's frustum corners.
+        Vector3[] frustumCorners = new Vector3[8];
+        mainCamera.CalculateFrustumCorners(new Rect(0, 0, 1, 1), mainCamera.nearClipPlane, Camera.MonoOrStereoscopicEye.Mono, frustumCorners);
+
+        // Calculate the half extents of the cube.
+        Vector3 halfExtents = size * 0.5f;
+
+        // Calculate the cube's corners.
+        Vector3[] cubeCorners = new Vector3[8];
+        cubeCorners[0] = center + new Vector3(-halfExtents.x, -halfExtents.y, -halfExtents.z);
+        cubeCorners[1] = center + new Vector3(halfExtents.x, -halfExtents.y, -halfExtents.z);
+        cubeCorners[2] = center + new Vector3(-halfExtents.x, halfExtents.y, -halfExtents.z);
+        cubeCorners[3] = center + new Vector3(halfExtents.x, halfExtents.y, -halfExtents.z);
+        cubeCorners[4] = center + new Vector3(-halfExtents.x, -halfExtents.y, halfExtents.z);
+        cubeCorners[5] = center + new Vector3(halfExtents.x, -halfExtents.y, halfExtents.z);
+        cubeCorners[6] = center + new Vector3(-halfExtents.x, halfExtents.y, halfExtents.z);
+        cubeCorners[7] = center + new Vector3(halfExtents.x, halfExtents.y, halfExtents.z);
+
+        // Check if all cube corners are within the camera's frustum.
+        for (int i = 0; i < 8; i++)
+        {
+            if (!IsPointInFrustum(frustumCorners, cubeCorners[i]))
+            {
+                return false; // At least one corner is outside the frustum.
+            }
+        }
+
+        return true; // All cube corners are within the frustum.
+    }
+
+    // Check if a point is within the camera's frustum.
+    private static bool IsPointInFrustum(Vector3[] frustumCorners, Vector3 point)
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCamera);
+        foreach (var plane in planes)
+        {
+            if (plane.GetSide(point) == false)
+            {
+                return false; // The point is outside this frustum plane.
+            }
+        }
+        return true; // The point is inside all frustum planes.
+    }
+}
+public static class CubeInFieldOfView
+{
+    public static Camera mainCamera => Gameplay.instance.cam;
+
+    // Check if the cube is not in the player's field of view.
+    public static bool IsCubeNotInFieldOfView(Vector3 cubeCenter, Vector3 cubeSize)
+    {
+        // Calculate the vector from the camera to the cube's center.
+        Vector3 cameraToCube = cubeCenter - mainCamera.transform.position;
+
+        // Calculate the dot product between camera forward vector and camera-to-cube vector.
+        float dotProduct = Vector3.Dot(mainCamera.transform.forward, cameraToCube);
+
+        // Calculate half extents of the cube.
+        Vector3 halfExtents = cubeSize * 0.5f;
+
+        // Check if the cube's center is behind the camera and if any part of the cube is in view.
+        return dotProduct < 0f && IsCubePartiallyInView(cameraToCube, halfExtents);
+    }
+
+    // Check if any part of the cube is in view.
+    private static bool IsCubePartiallyInView(Vector3 cameraToCube, Vector3 halfExtents)
+    {
+        // Calculate the projected size of the cube on the camera's near plane.
+        float projectedSize = Vector3.Project(cameraToCube, mainCamera.transform.forward).magnitude;
+
+        // Calculate the projected size of the cube on each axis.
+        float halfSizeX = halfExtents.x * projectedSize;
+        float halfSizeY = halfExtents.y * projectedSize;
+        float halfSizeZ = halfExtents.z * projectedSize;
+
+        // Get the camera's field of view angles.
+        float halfFOVX = mainCamera.fieldOfView / 2f;
+        float halfFOVY = mainCamera.fieldOfView * mainCamera.aspect / 2f;
+
+        // Check if any part of the cube is within the camera's field of view.
+        return Mathf.Abs(cameraToCube.x) < halfSizeX + Mathf.Tan(Mathf.Deg2Rad * halfFOVX) * cameraToCube.z &&
+               Mathf.Abs(cameraToCube.y) < halfSizeY + Mathf.Tan(Mathf.Deg2Rad * halfFOVY) * cameraToCube.z;
     }
 }

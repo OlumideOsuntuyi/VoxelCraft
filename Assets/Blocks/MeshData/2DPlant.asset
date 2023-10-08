@@ -12,5 +12,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86ccd9bb024a2d4c8760e945938f2b4, type: 3}
   m_Name: 2DPlant
   m_EditorClassIdentifier: 
-  blockName: 
-  faces: []
+  blockName: plant
+  faces:
+  - direction: left-back
+    normal: {x: 0, y: 0, z: 0}
+    vertData:
+    - position: {x: 0, y: 0, z: 0.25}
+      uv: {x: 0, y: 0}
+    - position: {x: 0, y: 1, z: 0.25}
+      uv: {x: 0, y: 1}
+    - position: {x: 1, y: 1, z: 0.75}
+      uv: {x: 1, y: 1}
+    - position: {x: 1, y: 0, z: 0.75}
+      uv: {x: 1, y: 0}
+    triangles: 000000000100000003000000030000000100000002000000
+  - direction: left-front
+    normal: {x: 0, y: 0, z: 0}
+    vertData:
+    - position: {x: 0, y: 0, z: 0.25}
+      uv: {x: 0, y: 0}
+    - position: {x: 0, y: 1, z: 0.25}
+      uv: {x: 0, y: 1}
+    - position: {x: 1, y: 1, z: 0.75}
+      uv: {x: 1, y: 1}
+    - position: {x: 1, y: 0, z: 0.75}
+      uv: {x: 1, y: 0}
+    triangles: 000000000300000001000000010000000300000002000000
+  - direction: right-back
+    normal: {x: 0, y: 0, z: 0}
+    vertData:
+    - position: {x: 0.75, y: 0, z: 0}
+      uv: {x: 0, y: 0}
+    - position: {x: 0.75, y: 1, z: 0}
+      uv: {x: 0, y: 1}
+    - position: {x: 0.25, y: 1, z: 1}
+      uv: {x: 1, y: 1}
+    - position: {x: 0.25, y: 0, z: 1}
+      uv: {x: 1, y: 0}
+    triangles: 000000000100000003000000030000000100000002000000
+  - direction: right-front
+    normal: {x: 0, y: 0, z: 0}
+    vertData:
+    - position: {x: 0.75, y: 0, z: 0}
+      uv: {x: 0, y: 0}
+    - position: {x: 0.75, y: 1, z: 0}
+      uv: {x: 0, y: 1}
+    - position: {x: 0.25, y: 1, z: 1}
+      uv: {x: 1, y: 1}
+    - position: {x: 0.25, y: 0, z: 1}
+      uv: {x: 1, y: 0}
+    triangles: 000000000300000001000000010000000300000002000000

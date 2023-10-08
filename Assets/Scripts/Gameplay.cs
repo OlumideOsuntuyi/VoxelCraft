@@ -7,6 +7,7 @@ public class Gameplay : Singleton<Gameplay>
     public static Gameplay instance;
     [SerializeField] private Player player;
     [SerializeField] private Camera mainCam;
+    internal Camera cam => mainCam;
     [SerializeField] private Material skyboxMaterial;
     [SerializeField] bool _isPlaying;
     [SerializeField] bool _isPaused;

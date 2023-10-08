@@ -286,7 +286,7 @@ public class VoxelPhysics : MonoBehaviour
     }
     void CheckFall()
     {
-        if(!entityState.falling && feetBlock.block.isSolid && !feetBlock.block.isWater)
+        if(!entityState.falling && !feetBlock.block.isSolid && !feetBlock.block.isWater)
         {
             StartFall();
         }
@@ -302,12 +302,13 @@ public class VoxelPhysics : MonoBehaviour
     }
     void EndFall()
     {
-        entityState.fallHeight = transform.position.y - entityState.startFall;
+        entityState.fallHeight = Mathf.Max(0, entityState.startFall - transform.position.y);
         survival.OnFall((1 - feetBlock.block.fallDamageNegation) * entityState.fallHeight);
         entityState.fallHeight = 0;
         entityState.startFall = 0;
         entityState.falling = false;
     }
+    [System.Serializable]
     public struct EntityState
     {
         public bool walking;

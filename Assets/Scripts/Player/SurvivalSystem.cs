@@ -37,6 +37,10 @@ public class SurvivalSystem : Singleton<SurvivalSystem>
         _ = StartCoroutine(LifeCycle());
         _ = StartCoroutine(UpdateSurvivalStats());
     }
+    public void EndGame()
+    {
+        StopAllCoroutines();
+    }
     public void OnFall(float height)
     {
         if(height > 3)
@@ -48,6 +52,10 @@ public class SurvivalSystem : Singleton<SurvivalSystem>
     public void OnEat()
     {
 
+    }
+    void GrantHealth(int hp)
+    {
+        health += hp;
     }
     internal bool suffocating;
     IEnumerator UpdateSurvivalStats()
@@ -72,10 +80,59 @@ public class SurvivalSystem : Singleton<SurvivalSystem>
                 }
                 ui.hp.currentValue = health / maxHearts;
                 ui.hunger.currentValue = hunger / 10f;
+                ui.xp.currentValue = (Time.time % 10) / 10f;
+                ui.air.gameObject.SetActive(air != 10);
+                ui.air.currentValue = air / 10f;
             }
             yield return null;
         }
         yield return null;
+    }
+    Block headBlockProp => player.physics.headBlock.block;
+    delegate void Methods();
+    List<Methods> methods => new()
+    {
+        OneSecond, TwoSecond, FiveSecond, TenSecond, ThirtySecond
+    };
+    void OneSecond()
+    {
+        if (air == 0)
+        {
+            int damage = 0;
+            if (headBlockProp.isWater)
+            {
+                damage = 2;
+            }
+            else if (headBlockProp.transparency > 0)
+            {
+                damage = 3;
+            }
+            else
+            {
+                damage = 4;
+            }
+            health -= damage;
+        }
+    }
+    void TwoSecond()
+    {
+        if (health < maxHearts && saturuation > 0)
+        {
+            saturuation = Mathf.Clamp(saturuation - (Time.deltaTime * 1), 0, maxSaturation);
+            health += 1;
+        }
+    }
+    void FiveSecond()
+    {
+
+    }
+    void TenSecond()
+    {
+
+    }
+    void ThirtySecond()
+    {
+
     }
     IEnumerator LifeCycle()
     {
@@ -84,19 +141,20 @@ public class SurvivalSystem : Singleton<SurvivalSystem>
             hearts = maxHearts;
             saturuation = 10f;
             hunger = 10;
-            float second = 0;
+            float[] second = {0, 0, 0, 0, 0};
+            float[] secondLength = { 1, 2, 5, 10, 30 };
             while (alive)
             {
-                second += Time.deltaTime;
-                var headBlockProp = player.physics.headBlock.block;
-                if (!headBlockProp.isSolid && !headBlockProp.isWater)
+                for (int i = 0; i < 5; i++)
                 {
-                    suffocating = false;
+                    second[i] += Time.deltaTime;
+                    if (second[i] > secondLength[i])
+                    {
+                        second[i] = 0;
+                        methods[i]();
+                    }
                 }
-                else
-                {
-                    suffocating = true;
-                }
+                suffocating = (headBlockProp.isSolid || headBlockProp.isWater);
                 if (suffocating)
                 {
                     air = Mathf.Clamp(air - ((headBlockProp.isWater ? 1 : 3) * Time.deltaTime), 0, 10);
@@ -104,32 +162,6 @@ public class SurvivalSystem : Singleton<SurvivalSystem>
                 else
                 {
                     air = Mathf.Clamp(air + (3 * Time.deltaTime), 0, 10);
-                }
-                if (second > 1)
-                {
-                    second = 0;
-                    if (health < maxHearts && saturuation > 0)
-                    {
-                        saturuation = Mathf.Clamp(saturuation - (Time.deltaTime * 1), 0, maxSaturation);
-                        health += 1;
-                    }
-                    if (air == 0)
-                    {
-                        int damage = 0;
-                        if (headBlockProp.isWater)
-                        {
-                            damage = 2;
-                        }
-                        else if (headBlockProp.transparency > 0)
-                        {
-                            damage = 3;
-                        }
-                        else
-                        {
-                            damage = 4;
-                        }
-                        health -= damage;
-                    }
                 }
                 yield return null;
             }
@@ -146,6 +178,7 @@ public class SurvivalSystem : Singleton<SurvivalSystem>
     public class UI
     {
         public PropertyBarSystem hp, hunger, xp;
+        public PropertyBarSystem armor, air;
     }
 
 }

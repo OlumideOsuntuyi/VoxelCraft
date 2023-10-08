@@ -6,19 +6,22 @@ using UnityEngine;
 public class Biome : ScriptableObject
 {
     public string biomeName;
+    public int id;
     public TerrainType type;
     public List<BiomeBlock> sediments, rocks, caveBlocks;
     public float terrainScale;
     public float caveScale;
 
     [Header("Tree Properties")]
-    public float treeScale, treeLumpScale;
+    public float treeScale;
+    public float treeLumpScale;
     public float treeThreshold;
     public float treeLumpThreshold;
     public List<TreeShape> trees = new();
 
     [Header("Plant Properties")]
-    public float plantsScale, plantsGroupOffset, plantsGroupThreshold, plantsThreshold;
+    public float plantsScale;
+    public float plantsGroupOffset, plantsGroupThreshold, plantsThreshold;
     public List<BiomeBlock> plant;
 
     [Range(0.5f, 1.5f)] public float elevation;

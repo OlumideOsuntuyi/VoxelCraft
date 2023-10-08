@@ -11,6 +11,7 @@ public class WorldGeneration : MonoBehaviour
     public List<Biome> biomes = new List<Biome>();
     public Material[] materials = new Material[3];
     internal FastNoise noise = new();
+    [SerializeField, Tooltip("Sorted by height")] private List<BiomeHeightTable> overworldBiomes = new();
     private void Awake()
     {
         instance = this;
@@ -22,13 +23,18 @@ public class WorldGeneration : MonoBehaviour
     }
     public byte GetBiome(ChunkPosition pos)
     {
-        if(biomes.Count < 2)
+        float temperature = Mathf.PerlinNoise(pos.x * 2.5f, pos.z * 2.5f);
+        float height = Mathf.PerlinNoise(pos.x + .05f, pos.z + .05f);
+
+        int id = 0;
+        for (int i = 0; i < overworldBiomes.Count; i++)
         {
-            return 0;
+            if(height <= overworldBiomes[i].height)
+            {
+                id = i;
+            }
         }
-        int x = pos.x * Settings.instance.chunkSize.x;
-        int y = pos.z * Settings.instance.chunkSize.z;
-        return (byte)Mathf.Clamp(Mathf.RoundToInt((biomes.Count - 1) * noise.GetWhiteNoise(x, y)), 0, biomes.Count - 1);
+        return (byte)overworldBiomes[id].GetBiome(temperature).id;
     }
     public void GenerateChunk(ChunkPosition position)
     {
@@ -169,14 +175,11 @@ public class WorldGeneration : MonoBehaviour
             //grass and flowers pass
             if (biome.plantsScale > 0 && !success)
             {
-                var scO = scP + new Vector3(biome.plantsGroupOffset, biome.plantsGroupOffset, biome.plantsGroupOffset);
-                var scPL = scO * biome.plantsScale * 16f;
-                if (noise.GetWhiteNoise(scPL.x, scPL.z) > biome.plantsGroupThreshold)
+                if (Mathf.Abs(pv - er) <= biome.plantsGroupThreshold)
                 {
-                    var scPT = scO * biome.plantsScale * 16f;
                     var p = pos;
                     p.y += 1;
-                    if (noise.GetWhiteNoise(scPT.x, scPT.y, scPT.z) > biome.plantsThreshold)
+                    if (pv > er)
                     {
                         BlockState plant = new BlockState(biome.GetBlock(x, y, z, biome.plant), p);
                         WorldData.SetBlock(plant, p);
@@ -193,84 +196,40 @@ public class WorldGeneration : MonoBehaviour
         {
             for (int i = 1; i < octaves + 1; i++)
             {
-                value += ClampNoise(noise.GetPerlin(x * scale * i, y * scale * i));
+                value += ClampNoise(noise.GetPerlinFractal(x * scale * i, y * scale * i));
             }
             value /= octaves;
         }
         return value;
     }
-    float ClampNoise(float noise)
+    public static float ClampNoise(float noise)
     {
         return (noise + 1) * .5f;
     }
-    int _GetBlockType(int x, int y, int z, Biome biome, Vector2Int chunkPos)
+    [System.Serializable]
+    public class BiomeHeightTable
     {
-        if(y == 0)
+        public string name;
+        public float height;
+        [Tooltip("Sorted by temperature")] public List<BiomeTemperatureTable> biomes = new();
+        public Biome GetBiome(float temperature)
         {
-            return 1;
+            int id = 0;
+            for (int i = 0; i < biomes.Count; i++)
+            {
+                if (height <= biomes[i].temperature)
+                {
+                    id = i;
+                }
+            }
+            return biomes[id].biome;
         }
-        var size = Settings.instance.chunkSize;
-        float elevation = biome.elevation;
-        float terrainScale = biome.terrainScale;
-        int moveX = (x - 8) > 4 ? 1 : (x - 8) < -4 ? -1 : 0;
-        int moveY = (x - 8) > 4 ? 1 : (x - 8) < -4 ? -1 : 0;
-        int div = 1;
-        if (moveX != 0)
+        [System.Serializable]
+        public class BiomeTemperatureTable
         {
-            int b = GetBiome(new(chunkPos + (Vector2Int.right * moveX)));
-            elevation += biomes[b].elevation;
-            terrainScale += biomes[b].terrainScale;
-            div++;
+            public string name;
+            public float temperature;
+            public Biome biome;
         }
-        if (moveY != 0)
-        {
-            int b = GetBiome(new(chunkPos + (Vector2Int.right * moveY)));
-            elevation += biomes[b].elevation;
-            terrainScale += biomes[b].terrainScale;
-            div++;
-        }
-        elevation /= div;
-        terrainScale /= div;
-        float simplex1 = noise.GetSimplex(x * .8f * terrainScale, z * .8f * terrainScale) * 10;
-        float simplex2 = noise.GetSimplex(x * 3f * terrainScale, z * terrainScale * 3f) * 10 * (noise.GetSimplex(x * terrainScale * .3f, z * terrainScale * .3f) + .5f);
-
-        float heightMap = simplex1 + simplex2;
-
-        //add the 2d noise to the middle of the terrain chunk
-        float baseLandHeight = (elevation * size.y) * .5f + heightMap;
-
-        //3d noise for caves and overhangs and such
-        float caveNoise1 = noise.GetPerlinFractal(x * 5f * biome.caveScale, y * 10f, z * biome.caveScale * 5f);
-        float caveMask = noise.GetSimplex(x * biome.caveScale * .3f, z * biome.caveScale * .3f) + .3f;
-
-        //stone layer heightmap
-        float simplexStone1 = noise.GetSimplex(x * 1f, z * 1f) * 10;
-        float simplexStone2 = (noise.GetSimplex(x * 5f, z * 5f) + .5f) * 20 * (noise.GetSimplex(x * .3f, z * .3f) + .5f);
-
-        float stoneHeightMap = simplexStone1 + simplexStone2;
-        float baseStoneHeight = size.y * elevation * .25f + stoneHeightMap;
-
-        float baseCaveHeight = size.y * elevation * biome.caveSize * .25f + stoneHeightMap;
-
-        int blockType = 0;
-
-        //under the surface, dirt block
-        if (y <= baseLandHeight)
-        {
-            blockType = biome.GetBlock(x, y, z, biome.sediments); //dirt
-
-            //just on the surface, use a grass type
-            if (y > baseLandHeight - 1 && y > 0 - 2)
-                blockType = biome.terrainBlock; //grass
-
-            if (y <= baseStoneHeight)
-                blockType = biome.GetBlock(x, y, z, biome.rocks); //stone
-            if(y <= baseCaveHeight)
-                blockType = biome.GetBlock(x, y, z, biome.caveBlocks);
-        }
-        if (caveNoise1 > Mathf.Max(caveMask, .2f))
-            blockType = 0; // cave air
-        return blockType;
     }
-
 }

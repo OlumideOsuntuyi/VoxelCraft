@@ -31,10 +31,10 @@ MonoBehaviour:
   caveBlocks: []
   terrainScale: 0
   caveScale: 0
-  treeScale: 1
+  treeScale: 2
   treeLumpScale: 1
-  treeThreshold: 0
-  treeLumpThreshold: 1
+  treeThreshold: 0.4
+  treeLumpThreshold: 0.4
   trees:
   - leaves:
     - name: 

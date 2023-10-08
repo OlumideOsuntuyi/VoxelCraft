@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c50bbecb069dd54468bc029a71340839, type: 3}
-  m_Name: Flatlands
+  m_Name: SlopyHills
   m_EditorClassIdentifier: 
   continentScale: 1
   continentOctaves: 1
@@ -30,10 +30,14 @@ MonoBehaviour:
   erosionOctaves: 2
   erosionAmplitude: 0.5
   erosionPoints:
-  - value: 20
+  - value: 5
     time: -0.5
-  - value: 10
+  - value: 40
     time: -0.4
+  - value: 20
+    time: -0.375
+  - value: 40
+    time: -0.35
   - value: 7
     time: -0.25
   - value: 5
@@ -44,7 +48,7 @@ MonoBehaviour:
     time: 0.2
   - value: 7
     time: 0.3
-  - value: 10
+  - value: 5
     time: 0.5
   pvScale: 1
   pvOctaves: 4
@@ -52,17 +56,19 @@ MonoBehaviour:
   pvPoints:
   - value: 0
     time: -1
-  - value: 0
+  - value: 10
     time: -0.5
   - value: 5
     time: -0.25
-  - value: 5
+  - value: 15
     time: 0
-  - value: 10
-    time: 0.25
   - value: 20
+    time: 0.25
+  - value: 25
     time: 0.5
-  - value: 27
+  - value: 20
+    time: 0.7
+  - value: 10
     time: 1
   caveHeight: 52
   minCaveThreshold: 0

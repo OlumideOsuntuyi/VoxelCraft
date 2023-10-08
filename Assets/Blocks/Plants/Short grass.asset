@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3202302a0f90cf840a72ba3e0c0ad2e5, type: 3}
   m_Name: Short grass
   m_EditorClassIdentifier: 
-  blockName: 
+  blockName: short grass
   id: 48
   icon: {fileID: 21300000, guid: 559d2e2c4a84bdd428cc4a1d05dbfd76, type: 3}
   meshData: {fileID: 11400000, guid: 82b4308c5d6b31e4c931f6209ab5e468, type: 2}
-  transparency: 0
+  transparency: 1
   emission: 0
   stackMax: 64
   walkMultiplier: 1
@@ -27,7 +27,7 @@ MonoBehaviour:
   renderNeighbourFaces: 1
   isSolid: 0
   isWater: 0
-  isPlant: 0
+  isPlant: 1
   isActiveBlock: 0
   canRotate: 0
   canSpread: 0
@@ -35,5 +35,17 @@ MonoBehaviour:
   isPowered: 0
   canBreak: 0
   isGravity: 0
-  faceTextures: []
+  faceTextures:
+  - texture: {fileID: 21300000, guid: 9d8def197868c9e43a443d9231ccbd94, type: 3}
+    uv: {x: 24, y: 0}
+    tintType: 2
+  - texture: {fileID: 21300000, guid: 9d8def197868c9e43a443d9231ccbd94, type: 3}
+    uv: {x: 24, y: 0}
+    tintType: 2
+  - texture: {fileID: 21300000, guid: 9d8def197868c9e43a443d9231ccbd94, type: 3}
+    uv: {x: 24, y: 0}
+    tintType: 2
+  - texture: {fileID: 21300000, guid: 9d8def197868c9e43a443d9231ccbd94, type: 3}
+    uv: {x: 24, y: 0}
+    tintType: 2
   walkAudio: {fileID: 0}

@@ -898,8 +898,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   biomes:
+  - {fileID: 11400000, guid: 62219b4ef756e83448a2abfcfc33f06b, type: 2}
   - {fileID: 11400000, guid: dcbb62931ae494943866bd7c1ed23b82, type: 2}
   - {fileID: 11400000, guid: 8c0981b3d897a454498962ef3bdf5497, type: 2}
+  - {fileID: 11400000, guid: 36824ba7e9449ce42a70bf4bc1b22789, type: 2}
   - {fileID: 11400000, guid: 36824ba7e9449ce42a70bf4bc1b22789, type: 2}
   materials:
   - {fileID: 2100000, guid: 61056c4e5e0265d4eb08fd823813ca30, type: 2}
@@ -5585,6 +5587,15 @@ MonoBehaviour:
       x: 0
       y: 0
       z: 0
+  entityState:
+    walking: 0
+    running: 0
+    falling: 0
+    swiming: 0
+    fallHeight: 0
+    startFall: 0
+    walk_id: 0
+    walk_obstacle_id: 0
   feetAudio: {fileID: 0}
   legAudio: {fileID: 0}
   headAudio: {fileID: 0}
@@ -5673,6 +5684,8 @@ MonoBehaviour:
     hp: {fileID: 2006418185}
     hunger: {fileID: 1721959164}
     xp: {fileID: 286654328}
+    armor: {fileID: 2120127510}
+    air: {fileID: 617931488}
 --- !u!114 &421656032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25026,9 +25039,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1883579473}
-  m_LocalRotation: {x: 0, y: 0, z: 0.35994655, w: 0.9329729}
+  m_LocalRotation: {x: 0, y: 0, z: 0.36454287, w: 0.9311866}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0561235, y: 1.0561235, z: 1.0561235}
+  m_LocalScale: {x: 1.0448219, y: 1.0448219, z: 1.0448219}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 925048190}
